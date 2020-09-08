@@ -41,9 +41,9 @@ HRESULT popolScene::init()
 
 	
 
-	foothold[0] = RectMake(0,444,210,200);
-	foothold[1] = RectMake(210, 448, 145, 15);
-	foothold[2] = RectMake(0, 642, WINSIZE_X, 200);
+	foothold[0] = RectMake(0,445,210,200);
+	foothold[1] = RectMake(210, 450, 145, 15);
+	foothold[2] = RectMake(0, 640, WINSIZE_X, 200);
 
 
 	
@@ -64,6 +64,40 @@ void popolScene::update()
 
 	if (!attackOn && !rollOn)
 	{
+
+		if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+		{
+			rc.left += 5;
+			rc.right += 5;
+
+			dy = 0;
+			if (!jumpOn)
+			{
+				state = 1;
+
+				player = IMAGEMANAGER->findImage("p_run");
+				player->setFrameY(dy);
+				player->setFrameX(runState++ / 5);
+			}
+
+		}
+
+		if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+		{
+			rc.left -= 5;
+			rc.right -= 5;
+
+			dy = 1;
+			if (!jumpOn)
+			{
+				state = 1;
+
+				player = IMAGEMANAGER->findImage("p_run");
+				player->setFrameY(dy);
+				player->setFrameX(runState++ / 5);
+			}
+		}
+
 		if (!jumpOn && floorOn)
 		{
 			//공격
@@ -79,7 +113,7 @@ void popolScene::update()
 			{
 				state = 3;
 				player = IMAGEMANAGER->findImage("p_jump");
-				landing = 1;
+				
 				jumpOn = true;
 
 			}
@@ -88,42 +122,11 @@ void popolScene::update()
 			{
 				state = 4;
 				player = IMAGEMANAGER->findImage("p_roll");
-				jumpOn = true;
+				rollOn = true;
 			}
 		}
 
-		if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
-		{
-			rc.left += 5;
-			rc.right += 5;
-
-			dy = 0;
-			if (!jumpOn)
-			{
-				state = 1;
-			
-				player = IMAGEMANAGER->findImage("p_run");
-				player->setFrameY(dy);
-				player->setFrameX(runState++ / 5);
-			}
-			
-		}
-
-		if (KEYMANAGER->isStayKeyDown(VK_LEFT))
-		{
-			rc.left -= 5;
-			rc.right -= 5;
-
-			dy = 1;
-			if (!jumpOn)
-			{
-				state = 1;
 		
-				player = IMAGEMANAGER->findImage("p_run");
-				player->setFrameY(dy);
-				player->setFrameX(runState++ / 5);
-			}
-		}
 		
 
 	}
@@ -161,6 +164,16 @@ void popolScene::update()
 	{
 		player->setFrameY(dy);
 		player->setFrameX(rollState++ / 5);
+		if (dy == 0)
+		{
+			rc.left += 5;
+			rc.right += 5;
+		}
+		else if (dy == 1)
+		{
+			rc.left -= 5;
+			rc.right -= 5;
+		}
 	}
 	
 	
@@ -207,7 +220,7 @@ void popolScene::update()
 
 	if (KEYMANAGER->isOnceKeyUp(VK_LEFT) || KEYMANAGER->isOnceKeyUp(VK_RIGHT) || KEYMANAGER->isOnceKeyUp(VK_UP) || KEYMANAGER->isOnceKeyUp(VK_DOWN))
 	{
-		if (!jumpOn)
+		if (!jumpOn && !attackOn && !rollOn)
 		{
 			state = 0;
 
@@ -218,7 +231,68 @@ void popolScene::update()
 
 	}
 
+	if (attackOn)
+	{
+		if (dy == 0)
+		{
+			rc2 = RectMake(rc.left + 30, rc.top, 90, 60);
+		}
+		else if (dy == 1)
+		{
+			rc2 = RectMake(rc.left, rc.top, 90, 60);
+		}
 
+	}
+	else
+	{
+		rc2 = RectMake(rc.left + 30, rc.top, 60, 60);
+	}
+	
+
+	RECT tempRect;
+
+	for (int i = 0; i < 3; i++)
+	{
+		//테투리만 겹쳐서는 충돌이 안됨! ->speed만큼 겹친 부분이 존재
+		if (IntersectRect(&tempRect, &rc2, &foothold[i]))
+		{
+
+			cout <<"   나의 rect 값->         left : "<<rc.left<<" , right : "<<rc.right <<", top : "<<rc.top<<", bottom : "<<rc.bottom << endl
+				 <<",  충돌한 물체의 좌표값-> left : "<< foothold[i].left<<", right : "<<foothold[i].right <<", top : "<<foothold[i].top 
+				 <<", bottom : "<<foothold[i].bottom <<endl;
+
+			if (rc2.left <= foothold[i].right && rc2.right >= foothold[i].right && rc2.bottom-6 >= foothold[i].top)
+			{
+				
+				//왼쪽으로 이동한다면 전 프레임의 위치로 이동 (이동 x)
+				if (rc.left < bFrameLeft)
+				{
+					rc.left = bFrameLeft;
+					rc.right = bFreameRight;
+				}
+				
+				//rc2.left = foothold[i].right;
+				//rc2.right = rc2.left + 60;
+				cout << "왼쪽으로 충돌" << endl;
+			}
+
+			//rc2의 바닥이 충돌 했을 경우 
+			if (rc2.bottom == foothold[i].top+5 && rc.top < foothold[i].top)
+			{
+				rc.bottom = foothold[i].top+5;
+				rc.top = rc.bottom - 60;
+				floorOn = true;
+				cout << "발이 충돌" << endl;
+				break;
+			}
+		}
+		else
+		{
+			floorOn = false;
+			
+		}
+	}
+	
 	//바닥이 아니고 점프 중이 아니라면 
 	if (!floorOn && !jumpOn)
 	{
@@ -228,47 +302,51 @@ void popolScene::update()
 		state = 5;
 		rc.top += 5;
 		rc.bottom += 5;
+		landing = 1;
 
 	}
+
 	
-	if (landing ==1 && !jumpOn)
+
+	if (landing == 1 && floorOn)
 	{
 		player = IMAGEMANAGER->findImage("p_idle");
 		player->setFrameY(dy);
 		state = 0;
 		landing = 0;
-	}
 
-	RECT tempRect;
-
-	for (int i = 0; i < 3; i++)
-	{
-		if (IntersectRect(&tempRect, &rc, &foothold[i]))
-		{
-			floorOn = true;
-			landing = 0;
-			break;
-		}
-		else
-		{
-			floorOn = false;
-		}
 	}
-	
 
 
 	
-	rc2 = RectMake(rc.left + 30, rc.top, 60, 60);
 	cout << "플레이어의 좌표 : " << rc.left <<" , "<< rc.top<<endl;
 
-	
+	bFrameLeft = rc.left;
+	bFreameRight = rc.right;
 
 }
 
 void popolScene::render()
 {
 	IMAGEMANAGER->render("배경3", getMemDC());
-	//RectangleMake(getMemDC(), rc2);
+	
+
+	RectangleMake(getMemDC(), rc);
+	RectangleMake(getMemDC(), rc2);
+
+	if (attackOn)
+	{
+		auto brush = CreateSolidBrush(RGB(255, 0, 0));
+		FillRect(getMemDC(), &rc2, brush);
+		DeleteObject(brush);
+	}
+	else if (rollOn)
+	{
+		auto brush = CreateSolidBrush(RGB(0, 255, 0));
+		FillRect(getMemDC(), &rc2, brush);
+		DeleteObject(brush);
+	}
+	
 
 	
 
@@ -301,7 +379,8 @@ void popolScene::render()
 	RectangleMake(getMemDC(), foothold[1]);
 	RectangleMake(getMemDC(), foothold[2]);
 
-	sprintf(str, "마우스 좌표 x : %d , y : %d       fall :  %d    jump : %d   state : %d", _ptMouse.x, _ptMouse.y,floorOn,jumpOn, state);
+	sprintf(str, "마우스 좌표 x : %d , y : %d       fall :  %d    jump : %d   state : %d   landing : %d", _ptMouse.x, _ptMouse.y,floorOn,jumpOn, state, landing);
 	TextOut(getMemDC(), 10, 10, str, strlen(str));
-
+	
+	
 }

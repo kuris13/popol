@@ -19,21 +19,24 @@ private:
 	int jumpState = 0;
 	int rollState = 0;
 	int fallState = 0;
-	int landing = 0;
+	int landing = 1;
+
+	int bFrameLeft = 0;
+	int bFreameRight = 0;
 
 	int jumpGa = 0;
-	int jumpSpeed = 5;
+	int jumpSpeed = 20;
 	int fallGa = 0;
 
 
 	int dy = 0;
 	char str[128];
+	char str2[128];
 	bool attackOn= false;
 	bool jumpOn = false;
 	bool rollOn = false;
 	bool floorOn = false;
 	bool fallOn = false;
-	
 
 public:
 
