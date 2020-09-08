@@ -18,6 +18,13 @@ private:
 	int attackState = 0;
 	int jumpState = 0;
 	int rollState = 0;
+	int fallState = 0;
+	int landing = 0;
+
+	int jumpGa = 0;
+	int jumpSpeed = 5;
+	int fallGa = 0;
+
 
 	int dy = 0;
 	char str[128];
@@ -25,6 +32,8 @@ private:
 	bool jumpOn = false;
 	bool rollOn = false;
 	bool floorOn = false;
+	bool fallOn = false;
+	
 
 public:
 

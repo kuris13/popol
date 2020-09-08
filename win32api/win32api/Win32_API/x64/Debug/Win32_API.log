@@ -1,5 +1,5 @@
 ﻿  popolScene.cpp
-c:\users\sga\downloads\win_api-master\win_api-master\practice\win32api\win32_api\popolscene.cpp(236): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\sga\downloads\win_api-master\win_api-master\practice\win32api\win32_api\popolscene.cpp(235): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\sga\desktop\05\win32api\win32api\win32_api\popolscene.cpp(305): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sga\desktop\05\win32api\win32api\win32_api\popolscene.cpp(304): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\stdio.h(1772): note: 'sprintf' 선언을 참조하십시오.
-  Win32_API.vcxproj -> C:\Users\SGA\Downloads\WIN_API-master\WIN_API-master\Practice\win32api\x64\Debug\Win32_API.exe
+  Win32_API.vcxproj -> C:\Users\SGA\Desktop\05\win32api\win32api\x64\Debug\Win32_API.exe
