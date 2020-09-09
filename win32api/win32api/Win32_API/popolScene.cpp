@@ -6,7 +6,7 @@
 
 HRESULT popolScene::init()
 {
-	IMAGEMANAGER->addImage("배경3", "Images/배경3.bmp", WINSIZE_X , WINSIZE_Y);
+	IMAGEMANAGER->addImage("배경3", "Images/first.bmp", WINSIZE_X , WINSIZE_Y);
 
 	IMAGEMANAGER->addFrameImage("p_idle", "Images/player/idle.bmp",
 		WINSIZE_X / 2, WINSIZE_Y / 2, 1800, 120, 15, 2, true, RGB(255, 0, 255));
@@ -39,12 +39,8 @@ HRESULT popolScene::init()
 	//플레이어 충돌체
 	rc2 = RectMake(rc.left + 30, rc.top, 60, 60);
 
-	
-
-	foothold[0] = RectMake(0,445,210,200);
-	foothold[1] = RectMake(210, 450, 145, 15);
-	foothold[2] = RectMake(0, 640, WINSIZE_X, 200);
-
+	foothold[0] = RectMake(0, 640, WINSIZE_X, 200);
+	foothold[1] = RectMake(0, 580, 180, 140);
 
 	
 	return S_OK;
@@ -251,12 +247,12 @@ void popolScene::update()
 
 	RECT tempRect;
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		//테투리만 겹쳐서는 충돌이 안됨! ->speed만큼 겹친 부분이 존재
 		if (IntersectRect(&tempRect, &rc2, &foothold[i]))
 		{
-
+			cout << i << "번과 충돌" << endl;
 			cout <<"   나의 rect 값->         left : "<<rc.left<<" , right : "<<rc.right <<", top : "<<rc.top<<", bottom : "<<rc.bottom << endl
 				 <<",  충돌한 물체의 좌표값-> left : "<< foothold[i].left<<", right : "<<foothold[i].right <<", top : "<<foothold[i].top 
 				 <<", bottom : "<<foothold[i].bottom <<endl;
@@ -283,7 +279,10 @@ void popolScene::update()
 				rc.top = rc.bottom - 60;
 				floorOn = true;
 				cout << "발이 충돌" << endl;
-				break;
+				
+				//break;
+				
+				
 			}
 		}
 		else
