@@ -12,6 +12,10 @@ private:
 	RECT foothold[10];
 
 
+	int _x, _y;
+	int _probeY;
+
+
 	int state = 0;
 	int idleState = 0;
 	int runState = 0;
@@ -37,7 +41,7 @@ private:
 	bool rollOn = false;
 	bool floorOn = false;
 	bool fallOn = false;
-
+	bool floorCheck = false;
 public:
 
 	HRESULT init();

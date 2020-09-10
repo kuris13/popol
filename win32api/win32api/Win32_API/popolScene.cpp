@@ -6,7 +6,7 @@
 
 HRESULT popolScene::init()
 {
-	IMAGEMANAGER->addImage("배경3", "Images/first.bmp", WINSIZE_X , WINSIZE_Y);
+	IMAGEMANAGER->addImage("배경3", "Images/first_p.bmp", WINSIZE_X , WINSIZE_Y,true,RGB(255,0,255));
 
 	IMAGEMANAGER->addFrameImage("p_idle", "Images/player/idle.bmp",
 		WINSIZE_X / 2, WINSIZE_Y / 2, 1800, 120, 15, 2, true, RGB(255, 0, 255));
@@ -30,17 +30,27 @@ HRESULT popolScene::init()
 		WINSIZE_X / 2, WINSIZE_Y / 2, 240, 124, 2, 2, true, RGB(255, 0, 255));
 
 
-
-
 	player = IMAGEMANAGER->findImage("p_idle");
 
+	_x = WINSIZE_X / 2;
+	_y = WINSIZE_Y / 2;
+
 	//플레이어 이미지
-	rc = RectMakeCenter(WINSIZE_X / 2, WINSIZE_Y / 2, 60, 60);
+	rc = RectMakeCenter(_x, _y, 60, 60);
 	//플레이어 충돌체
 	rc2 = RectMake(rc.left + 30, rc.top, 60, 60);
 
-	foothold[0] = RectMake(0, 640, WINSIZE_X, 200);
-	foothold[1] = RectMake(0, 580, 180, 140);
+	_probeY = rc2.top + player->getHeight() / 2;
+
+	cout << _probeY << endl;
+
+	foothold[0] = RectMake(0, 535, WINSIZE_X, 200);
+	//foothold[1] = RectMake(0, 580, 180, 140);
+
+
+
+
+
 
 	
 	return S_OK;
@@ -243,8 +253,63 @@ void popolScene::update()
 	{
 		rc2 = RectMake(rc.left + 30, rc.top, 60, 60);
 	}
+
+	
+	//바닥이 아니고 점프 중이 아니라면 
+	if (!floorOn && !jumpOn)
+	{
+		if (!rollOn)
+		{
+			player = IMAGEMANAGER->findImage("p_fall");
+			player->setFrameY(dy);
+			player->setFrameX(0);
+			state = 5;
+		}
+
+		rc.top += 5;
+		rc.bottom += 5;
+		landing = 1;
+
+	}
+	
+	
+	_probeY = rc2.top + player->getHeight() / 2;
+	//픽셀 충돌
+	for (int i = _probeY; i < _probeY + 30; i++)
+	{
+		
+		//픽셀 컬러 속성에 따른 충돌 판정을 위해 만듦
+		auto color = GetPixel(IMAGEMANAGER->findImage("배경3")->getMemDC(), rc2.left+15, i);
+
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
+
+		
+		
+		
+		//이미지 끼리 닿인 부분이 마젠타 색상이 아닐 경우
+		if (!(r == 255 & g == 0 & b == 255))
+		{
+			//대상 이미지의 가장 겉의 라인을 따라가면서 움직일 수 있도록
+			//rc.top = i - player->getHeight() / 2;
+			//rc.bottom = rc.top + 60;
+			//이미지 끼리 닿인 부분의 색은
+			//cout << "검사할 부분의 좌표는 -> x : " << rc2.left + 15 << "y : " << i << endl;
+			//cout << "r : " << r << "g : " << g << "b : " << b << "입니다." << endl;
+			//cout << "충돌함" << endl;
+
+			floorOn = true;
+			break;
+		}
+
+
+
+	}
 	
 
+	/*
+	floorCheck = false;
 	RECT tempRect;
 
 	for (int i = 0; i < 2; i++)
@@ -277,41 +342,41 @@ void popolScene::update()
 			{
 				rc.bottom = foothold[i].top+5;
 				rc.top = rc.bottom - 60;
-				floorOn = true;
 				cout << "발이 충돌" << endl;
 				
-				//break;
+				floorCheck = true;
 				
 				
 			}
 		}
-		else
-		{
-			floorOn = false;
-			
-		}
+		
 	}
 	
-	//바닥이 아니고 점프 중이 아니라면 
-	if (!floorOn && !jumpOn)
+	if (floorCheck)
 	{
-		player = IMAGEMANAGER->findImage("p_fall");
-		player->setFrameY(dy);
-		player->setFrameX(0);
-		state = 5;
-		rc.top += 5;
-		rc.bottom += 5;
-		landing = 1;
-
+		floorOn = true;
 	}
+	else if (!floorCheck)
+	{
+		floorOn = false;
+	}
+	
+	*/
+	
 
 	
 
 	if (landing == 1 && floorOn)
 	{
-		player = IMAGEMANAGER->findImage("p_idle");
-		player->setFrameY(dy);
-		state = 0;
+		if (!rollOn)
+		{
+			player = IMAGEMANAGER->findImage("p_idle");
+			player->setFrameY(dy);
+			state = 0;
+		}
+		
+
+
 		landing = 0;
 
 	}
@@ -375,8 +440,8 @@ void popolScene::render()
 	}
 
 	RectangleMake(getMemDC(), foothold[0]);
-	RectangleMake(getMemDC(), foothold[1]);
-	RectangleMake(getMemDC(), foothold[2]);
+//	RectangleMake(getMemDC(), foothold[1]);
+	//RectangleMake(getMemDC(), foothold[2]);
 
 	sprintf(str, "마우스 좌표 x : %d , y : %d       fall :  %d    jump : %d   state : %d   landing : %d", _ptMouse.x, _ptMouse.y,floorOn,jumpOn, state, landing);
 	TextOut(getMemDC(), 10, 10, str, strlen(str));
