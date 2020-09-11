@@ -14,7 +14,7 @@ private:
 
 	int _x, _y;
 	int _probeY;
-
+	int bHeight = 0;
 
 	int state = 0;
 	int idleState = 0;
@@ -42,6 +42,7 @@ private:
 	bool floorOn = false;
 	bool fallOn = false;
 	bool floorCheck = false;
+	bool coll = false;
 public:
 
 	HRESULT init();

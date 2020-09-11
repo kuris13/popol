@@ -41,8 +41,8 @@ HRESULT popolScene::init()
 	rc2 = RectMake(rc.left + 30, rc.top, 60, 60);
 
 	_probeY = rc2.top + player->getHeight() / 2;
-
-	cout << _probeY << endl;
+	bHeight = rc2.bottom;
+	cout << player->getHeight()/4 << endl;
 
 	foothold[0] = RectMake(0, 535, WINSIZE_X, 200);
 	//foothold[1] = RectMake(0, 580, 180, 140);
@@ -62,8 +62,8 @@ void popolScene::release()
 
 void popolScene::update()
 {
-
-
+	//rc2 = RectMake(rc.left + 30, rc.top, 60, 60);
+	cout << "업데이트 시작 좌표 y :" << rc2.bottom << endl;
 	
 
 
@@ -237,6 +237,14 @@ void popolScene::update()
 
 	}
 
+	
+
+	
+	
+	
+	floorCheck = false;
+	coll = false;
+
 	if (attackOn)
 	{
 		if (dy == 0)
@@ -253,33 +261,25 @@ void popolScene::update()
 	{
 		rc2 = RectMake(rc.left + 30, rc.top, 60, 60);
 	}
-
 	
-	//바닥이 아니고 점프 중이 아니라면 
-	if (!floorOn && !jumpOn)
-	{
-		if (!rollOn)
-		{
-			player = IMAGEMANAGER->findImage("p_fall");
-			player->setFrameY(dy);
-			player->setFrameX(0);
-			state = 5;
-		}
 
-		rc.top += 5;
-		rc.bottom += 5;
-		landing = 1;
 
-	}
-	
-	
-	_probeY = rc2.top + player->getHeight() / 2;
+
+	_probeY = rc2.top + 30;
 	//픽셀 충돌
-	for (int i = _probeY; i < _probeY + 30; i++)
+	//머리부터 발끝까지
+
+	cout << "충돌 직전 value 측정 " << endl;
+	cout << "==============================================" << endl;
+	cout << "rc의 bottom값 : " << rc.bottom << " rc2의 bottom값 : "<<rc2.bottom <<endl;
+	cout << "_probeY (이미지 중간 값)의 값 : " << _probeY << endl;
+	cout << "==============================================" << endl;
+
+	for (int i = _probeY-30; i < _probeY + 30; i++)
 	{
 		
 		//픽셀 컬러 속성에 따른 충돌 판정을 위해 만듦
-		auto color = GetPixel(IMAGEMANAGER->findImage("배경3")->getMemDC(), rc2.left+15, i);
+		auto color = GetPixel(IMAGEMANAGER->findImage("배경3")->getMemDC(), rc2.left+30, i);
 
 		int r = GetRValue(color);
 		int g = GetGValue(color);
@@ -291,16 +291,37 @@ void popolScene::update()
 		//이미지 끼리 닿인 부분이 마젠타 색상이 아닐 경우
 		if (!(r == 255 & g == 0 & b == 255))
 		{
-			//대상 이미지의 가장 겉의 라인을 따라가면서 움직일 수 있도록
-			//rc.top = i - player->getHeight() / 2;
-			//rc.bottom = rc.top + 60;
-			//이미지 끼리 닿인 부분의 색은
-			//cout << "검사할 부분의 좌표는 -> x : " << rc2.left + 15 << "y : " << i << endl;
-			//cout << "r : " << r << "g : " << g << "b : " << b << "입니다." << endl;
-			//cout << "충돌함" << endl;
+			
+				//이동할려는 위치가 5픽셀 이하라면 
+				if (i - bHeight <= 5) {
+					cout << "충돌함, 충돌한 좌표 ->x : " << rc2.left << ", y : " << i << endl;
 
-			floorOn = true;
-			break;
+					//대상 이미지의 가장 겉의 라인을 따라가면서 움직일 수 있도록
+					rc.bottom = i + 5;
+					rc.top = rc.bottom - 60;
+
+					//이미지 끼리 닿인 부분의 색은
+					//cout << "검사할 부분의 좌표는 -> x : " << rc2.left + 15 << "y : " << i << endl;
+					//cout << "r : " << r << "g : " << g << "b : " << b << "입니다." << endl;
+					coll = true;
+					bHeight = i;
+					floorCheck = true;
+					break;
+				}
+				else
+				{
+					cout << "다음에 이동할려는 위치가 너무 높아서 이동을 안 함======================" << endl;
+					rc.bottom = bHeight;
+					rc.top = rc.bottom - 60;
+					rc.left = bFrameLeft;
+					rc.right = bFreameRight;
+					coll = true;
+					bHeight = i;
+					floorCheck = true;
+					break;
+
+				}
+
 		}
 
 
@@ -351,18 +372,41 @@ void popolScene::update()
 		}
 		
 	}
+	*/
+
 	
+
+
 	if (floorCheck)
 	{
 		floorOn = true;
+		cout << "바닥임" << endl;
 	}
 	else if (!floorCheck)
 	{
 		floorOn = false;
+		cout << "충돌 안 함, 내 좌표 ->x : " << rc2.left << ", y : " << rc2.bottom << endl;
+		cout << "바닥이 아님" << endl;
 	}
 	
-	*/
 	
+	//바닥이 아니고 점프 중이 아니라면 
+	if (!floorOn && !jumpOn)
+	{
+		if (!rollOn)
+		{
+			player = IMAGEMANAGER->findImage("p_fall");
+			player->setFrameY(dy);
+			player->setFrameX(0);
+			state = 5;
+		}
+
+		rc.top += 5;
+		rc.bottom += 5;
+		landing = 1;
+		cout << "추락함" << endl;
+
+	}
 
 	
 
@@ -381,13 +425,22 @@ void popolScene::update()
 
 	}
 
+	cout << "이번 플레이어 rc의 좌표 : " << rc.left << " , " << rc.bottom << endl;
+	cout << "이번 플레이어 rc2의 좌표 : " << rc2.left << " , " << rc2.bottom << endl;
+	if (coll)
+	{
+		cout << "이번 업데이트에서는 충돌함 " << endl;
+	}
 
 	
-	cout << "플레이어의 좌표 : " << rc.left <<" , "<< rc.top<<endl;
+	cout << endl;
+	
+
 
 	bFrameLeft = rc.left;
 	bFreameRight = rc.right;
-
+	
+	
 }
 
 void popolScene::render()
@@ -395,8 +448,8 @@ void popolScene::render()
 	IMAGEMANAGER->render("배경3", getMemDC());
 	
 
-	RectangleMake(getMemDC(), rc);
-	RectangleMake(getMemDC(), rc2);
+	//RectangleMake(getMemDC(), rc);
+	//RectangleMake(getMemDC(), rc2);
 
 	if (attackOn)
 	{
