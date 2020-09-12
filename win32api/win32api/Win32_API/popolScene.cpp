@@ -6,7 +6,9 @@
 
 HRESULT popolScene::init()
 {
-	IMAGEMANAGER->addImage("배경3", "Images/first_p.bmp", WINSIZE_X , WINSIZE_Y,true,RGB(255,0,255));
+	IMAGEMANAGER->addImage("배경3", "Images/first_p.bmp", 1312 , 768,true,RGB(255,0,255));
+	IMAGEMANAGER->addImage("배경3_c", "Images/first_c.bmp", 1312, 768, true, RGB(255, 0, 255));
+
 
 	IMAGEMANAGER->addFrameImage("p_idle", "Images/player/idle.bmp",
 		WINSIZE_X / 2, WINSIZE_Y / 2, 1800, 120, 15, 2, true, RGB(255, 0, 255));
@@ -267,67 +269,142 @@ void popolScene::update()
 
 	_probeY = rc2.top + 30;
 	//픽셀 충돌
-	//머리부터 발끝까지
-
 	cout << "충돌 직전 value 측정 " << endl;
 	cout << "==============================================" << endl;
 	cout << "rc의 bottom값 : " << rc.bottom << " rc2의 bottom값 : "<<rc2.bottom <<endl;
 	cout << "_probeY (이미지 중간 값)의 값 : " << _probeY << endl;
 	cout << "==============================================" << endl;
 
+	//바닥 충돌
 	for (int i = _probeY-30; i < _probeY + 30; i++)
 	{
-		
 		//픽셀 컬러 속성에 따른 충돌 판정을 위해 만듦
-		auto color = GetPixel(IMAGEMANAGER->findImage("배경3")->getMemDC(), rc2.left+30, i);
+		auto color = GetPixel(IMAGEMANAGER->findImage("배경3_c")->getMemDC(), rc2.left+30, i);
 
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
 
-		
-		
-		
-		//이미지 끼리 닿인 부분이 마젠타 색상이 아닐 경우
-		if (!(r == 255 & g == 0 & b == 255))
+		//바닥에 충돌한 경우
+		if ((r == 0 && g == 0 && b == 0))
 		{
 			
-				//이동할려는 위치가 5픽셀 이하라면 
-				if (i - bHeight <= 5) {
-					cout << "충돌함, 충돌한 좌표 ->x : " << rc2.left << ", y : " << i << endl;
-
+				//이동할려는 위치가 나보다 많이 크지 않다면 
+				if  (bHeight - i <= 20 ) {
+					cout << "충돌함, 충돌한 좌표 ->x : " << rc2.left+30 << ", y : " << i << endl;
+					cout << i << " - " << bHeight << " = " << i - bHeight<<endl;
 					//대상 이미지의 가장 겉의 라인을 따라가면서 움직일 수 있도록
 					rc.bottom = i + 5;
 					rc.top = rc.bottom - 60;
 
 					//이미지 끼리 닿인 부분의 색은
 					//cout << "검사할 부분의 좌표는 -> x : " << rc2.left + 15 << "y : " << i << endl;
-					//cout << "r : " << r << "g : " << g << "b : " << b << "입니다." << endl;
+					cout << "r : " << r << "g : " << g << "b : " << b << "입니다." << endl;
 					coll = true;
-					bHeight = i;
 					floorCheck = true;
 					break;
 				}
 				else
 				{
-					cout << "다음에 이동할려는 위치가 너무 높아서 이동을 안 함======================" << endl;
-					rc.bottom = bHeight;
-					rc.top = rc.bottom - 60;
-					rc.left = bFrameLeft;
-					rc.right = bFreameRight;
-					coll = true;
-					bHeight = i;
-					floorCheck = true;
-					break;
+					/*
+					if (!jumpOn)
+					{
+						cout << "다음에 이동할려는 위치가 너무 높아서 이동을 안 함======================" << endl;
+						cout << "충돌함, 충돌한 좌표 ->x : " << rc2.left+30 << ", y : " << i << endl;
+						rc.bottom = bHeight;
+						rc.top = rc.bottom - 60;
+						rc.left = bFrameLeft;
+						rc.right = bFreameRight;
+						coll = true;
+						floorCheck = true;
+						break;
+					}
+					else if(jumpOn)
+					{
+						rc.left = bFrameLeft;
+						rc.right = bFreameRight;
+						coll = true;
+						floorCheck = true;
+						break;
+					}
+					*/
+						
+					
+					
 
 				}
-
+				
+		}
+		//벽에 충돌한 경우
+		else if ((r == 255 && g == 0 && b == 0))
+		{
+			if (floorOn)
+			{
+				//cout << "벽에 충돌함 ===============================" << endl;
+				rc.left = bFrameLeft;
+				rc.right = bFreameRight;
+				coll = true;
+				floorCheck = true;
+				
+			}
+			else if (!floorOn)
+			{
+				//cout << "벽에 충돌함 ===============================" << endl;
+				rc.left = bFrameLeft;
+				rc.right = bFreameRight;
+				coll = true;
+				
+			}
+			
 		}
 
 
-
 	}
-	
+	/*
+	//바닥인 상태에서 충돌하지 않았을 경우에 만약 내 밑 20 픽셀중에 땅이 있다면 추락하지 않음
+	if (!coll && floorOn && !jumpOn)
+	{
+		for (int i = _probeY + 30; i < _probeY + 30+20; i++)
+		{
+			//픽셀 컬러 속성에 따른 충돌 판정을 위해 만듦
+			auto color = GetPixel(IMAGEMANAGER->findImage("배경3_c")->getMemDC(), rc2.left + 30, i);
+
+			int r = GetRValue(color);
+			int g = GetGValue(color);
+			int b = GetBValue(color);
+
+			//이미지 끼리 닿인 부분이 마젠타 색상이 아닐 경우
+			if (!(r == 255 & g == 0 & b == 255))
+			{
+				rc.bottom = i + 5;
+				rc.top = rc.bottom - 60;
+				cout << "밑에 땅이 가까이 있기 때문에 추락하지 않음 " << endl;
+				floorCheck = true;
+				break;
+			}
+		}
+	}
+	*/
+	/*
+	//벽 충돌 
+	if (!floorOn && !jumpOn)
+	{
+		cout << "추락 중에 왼쪽 아래 모서리가 벽에 닿음" << endl;
+		//왼쪽 아래 모서리가 벽에 닿으면 안 움직임
+		auto color = GetPixel(IMAGEMANAGER->findImage("배경3")->getMemDC(), rc2.left, rc2.bottom);
+
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
+
+		//이미지 끼리 닿인 부분이 마젠타 색상이 아닐 경우
+		if (!(r == 255 & g == 0 & b == 255))
+		{
+			rc.left = bFrameLeft;
+			rc.right = bFreameRight;
+		}
+	}
+	*/
 
 	/*
 	floorCheck = false;
@@ -439,7 +516,7 @@ void popolScene::update()
 
 	bFrameLeft = rc.left;
 	bFreameRight = rc.right;
-	
+	bHeight = rc.bottom;
 	
 }
 
@@ -492,7 +569,7 @@ void popolScene::render()
 		IMAGEMANAGER->frameRender("p_fall", getMemDC(), rc.left, rc.top);
 	}
 
-	RectangleMake(getMemDC(), foothold[0]);
+	//RectangleMake(getMemDC(), foothold[0]);
 //	RectangleMake(getMemDC(), foothold[1]);
 	//RectangleMake(getMemDC(), foothold[2]);
 
