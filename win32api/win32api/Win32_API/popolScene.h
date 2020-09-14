@@ -1,16 +1,19 @@
 #pragma once
 #include "gameNode.h"
+#include "monster.h"
 class popolScene : public gameNode
 {
 private:
 	image* player;
 	//플레이어 이미지
+
 	RECT rc;
 	//플레이어 충돌체
 	RECT rc2;
 
 	RECT foothold[10];
-
+	
+	monster m[10];
 
 	int _x, _y;
 	int _probeY;
@@ -51,5 +54,9 @@ public:
 	void render();
 
 
+	void playerMovement();
+	void monsterMoveMent();
+	void playerInit();
+	void monsterInit();
 };
 
