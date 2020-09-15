@@ -23,6 +23,7 @@ public:
 	int attackState = 0;
 	int fallState = 0;
 
+	int ste = 0;
 	//몬스터의 랜딩 상태 
 	int landing = 1;
 
@@ -40,6 +41,7 @@ public:
 	bool floorOn = false;
 	bool fallOn = false;
 	bool floorCheck = false;
+	bool steMode = false;
 	bool coll = false;
 
 

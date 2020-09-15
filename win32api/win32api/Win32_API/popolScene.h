@@ -4,6 +4,9 @@
 class popolScene : public gameNode
 {
 private:
+
+	int cameraX = 0;
+	int cameraY = 0;
 	image* player;
 	//플레이어 이미지
 
@@ -26,7 +29,13 @@ private:
 	int jumpState = 0;
 	int rollState = 0;
 	int fallState = 0;
+	int hitState = 0;
+
+
+
 	int landing = 1;
+
+
 
 	int bFrameLeft = 0;
 	int bFreameRight = 0;
@@ -34,7 +43,7 @@ private:
 	int jumpGa = 0;
 	int jumpSpeed = 20;
 	int fallGa = 0;
-
+	int noHitGa = 0;
 
 	int dy = 0;
 	char str[128];
@@ -44,8 +53,12 @@ private:
 	bool rollOn = false;
 	bool floorOn = false;
 	bool fallOn = false;
+	bool hitOn = false;
 	bool floorCheck = false;
 	bool coll = false;
+	
+	bool noHitMode = false;
+
 public:
 
 	HRESULT init();
