@@ -1,6 +1,7 @@
 #pragma once
 #include "gameNode.h"
 #include "monster.h"
+
 class popolScene : public gameNode
 {
 private:
@@ -14,9 +15,13 @@ private:
 	//플레이어 충돌체
 	RECT rc2;
 
+	RECT cameraPoint1;
+
 	RECT foothold[10];
 	
 	monster m[10];
+
+	vector<monster> monVec;
 
 	int _x, _y;
 	int _probeY;
@@ -30,11 +35,12 @@ private:
 	int rollState = 0;
 	int fallState = 0;
 	int hitState = 0;
+	int cameraState = 0;
 
-
+	int hitMonNum = 0;
 
 	int landing = 1;
-
+	
 
 
 	int bFrameLeft = 0;
@@ -59,6 +65,10 @@ private:
 	
 	bool noHitMode = false;
 
+
+	int lifeCount = 0;
+
+
 public:
 
 	HRESULT init();
@@ -71,5 +81,7 @@ public:
 	void monsterMoveMent();
 	void playerInit();
 	void monsterInit();
+	void cameraMove();
+	void UI();
 };
 

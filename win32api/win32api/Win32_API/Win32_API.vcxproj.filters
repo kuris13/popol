@@ -248,5 +248,8 @@
     <ClInclude Include="monster.h">
       <Filter>API_FrameWork\SampleScene\popol</Filter>
     </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>API_FrameWork\SampleScene\popol</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

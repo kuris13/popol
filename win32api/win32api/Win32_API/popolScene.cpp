@@ -13,8 +13,12 @@ HRESULT popolScene::init()
 	IMAGEMANAGER->addImage("배경3", "Images/first_p.bmp", 1312, 768, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("배경3_c", "Images/first_c.bmp", 1312, 768, true, RGB(255, 0, 255));
 
+	IMAGEMANAGER->addImage("체력", "Images/life.bmp", 27*2, 35*2, true, RGB(255, 0, 255));
 
-	
+
+	cameraPoint1 = RectMake(1250,0,100,WINSIZE_Y);
+
+	lifeCount = 3;
 
 	playerInit();
 	monsterInit();
@@ -31,7 +35,7 @@ void popolScene::update()
 
 	playerMovement();
 	monsterMoveMent();
-
+	UI();
 }
 
 void popolScene::render()
@@ -46,7 +50,10 @@ void popolScene::render()
 	IMAGEMANAGER->render("배경3", getMemDC());
 	
 
-
+	for (int i = 0; i < lifeCount; i++)
+	{
+		IMAGEMANAGER->render("체력", getMemDC(),30+i*55,50);
+	}
 
 
 	//RectangleMake(getMemDC(), rc);
@@ -99,20 +106,25 @@ void popolScene::render()
 		IMAGEMANAGER->frameRender("p_hit", getMemDC(), rc.left, rc.top);
 	}
 
-
-	if (m[0].state == 0)
+	for (int i = 0; i < 2; i++)
 	{
-		IMAGEMANAGER->frameRender("skel_idle", getMemDC(), m[0].mRc.left, m[0].mRc.top);
+		if (m[i].state == 0)
+		{
+			IMAGEMANAGER->frameRender("skel_idle", getMemDC(), m[i].mRc.left, m[i].mRc.top);
 
-	}else if (m[0].state == 1)
-	{
-		IMAGEMANAGER->frameRender("skel_walk", getMemDC(), m[0].mRc.left, m[0].mRc.top);
+		}
+		else if (m[i].state == 1)
+		{
+			IMAGEMANAGER->frameRender("skel_walk", getMemDC(), m[i].mRc.left, m[i].mRc.top);
 
-	}else if (m[0].state == 2)
-	{
-		IMAGEMANAGER->frameRender("skel_attack", getMemDC(), m[0].mRc.left, m[0].mRc.top);
+		}
+		else if (m[i].state == 2)
+		{
+			IMAGEMANAGER->frameRender("skel_attack", getMemDC(), m[i].mRc.left, m[i].mRc.top);
 
+		}
 	}
+
 
 
 	
@@ -122,6 +134,8 @@ void popolScene::render()
 
 	//RectangleMake(getMemDC(), m[0].mRc);
 
+	RectangleMake(getMemDC(), cameraPoint1);
+
 	sprintf(str, "마우스 좌표 x : %d , y : %d  m[0]의 ste : %d", _ptMouse.x, _ptMouse.y,m[0].ste);
 	TextOut(getMemDC(), 10, 10, str, strlen(str));
 	
@@ -130,7 +144,7 @@ void popolScene::render()
 
 void popolScene::playerMovement()
 {
-	cout << "업데이트 시작 좌표 y :" << rc2.bottom << endl;
+	
 
 	if (!attackOn && !rollOn)
 	{
@@ -222,7 +236,7 @@ void popolScene::playerMovement()
 	if (attackOn)
 	{
 		player->setFrameY(dy);
-		player->setFrameX(attackState++ / 5);
+		player->setFrameX(attackState++ / 3);
 	}
 	else if (jumpOn)
 	{
@@ -264,14 +278,14 @@ void popolScene::playerMovement()
 		state = 6;
 
 		//플레이어가 몬스터 오른쪽에 있음
-		if ((rc2.left + 30) - (m[0].mRc.left + 30) > 0)
+		if ((rc2.left + 30) - (m[hitMonNum].mRc.left + 30) > 0)
 		{
 			rc.left += 5;
 			rc.right += 5;
 
 
 		}
-		else if ((rc2.left + 30) - (m[0].mRc.left + 30) == 0)
+		else if ((rc2.left + 30) - (m[hitMonNum].mRc.left + 30) == 0)
 		{
 			//
 		}
@@ -305,7 +319,7 @@ void popolScene::playerMovement()
 		runState = 0;
 	}
 
-	if (attackState > 110)
+	if (attackState > 66)
 	{
 		attackState = 0;
 		attackOn = false;
@@ -369,7 +383,15 @@ void popolScene::playerMovement()
 			{
 				hitOn = true;
 				noHitMode = true;
-				cout << "현재 몬스터와 충돌 중 " << endl;
+				hitMonNum = i;
+
+				--lifeCount;
+
+				if (lifeCount == 0)
+				{
+					//씬 전환
+				}
+
 			}
 
 		}
@@ -399,13 +421,7 @@ void popolScene::playerMovement()
 	}
 
 	_probeY = rc2.top + 30;
-	//픽셀 충돌
-	//cout << "충돌 직전 value 측정 " << endl;
-	//cout << "==============================================" << endl;
-	//cout << "rc의 bottom값 : " << rc.bottom << " rc2의 bottom값 : " << rc2.bottom << endl;
-	//cout << "_probeY (이미지 중간 값)의 값 : " << _probeY << endl;
-	//cout << "==============================================" << endl;
-
+	
 	//바닥 충돌
 	for (int i = _probeY - 30; i < _probeY + 30; i++)
 	{
@@ -422,15 +438,11 @@ void popolScene::playerMovement()
 
 			//이동할려는 위치가 나보다 많이 크지 않다면 
 			if (bHeight - i <= 20) {
-				cout << "충돌함, 충돌한 좌표 ->x : " << rc2.left + 30 << ", y : " << i << endl;
-				cout << i << " - " << bHeight << " = " << i - bHeight << endl;
 				//대상 이미지의 가장 겉의 라인을 따라가면서 움직일 수 있도록
 				rc.bottom = i + 5;
 				rc.top = rc.bottom - 60;
 
 				//이미지 끼리 닿인 부분의 색은
-				//cout << "검사할 부분의 좌표는 -> x : " << rc2.left + 15 << "y : " << i << endl;
-				cout << "r : " << r << "g : " << g << "b : " << b << "입니다." << endl;
 				coll = true;
 				floorCheck = true;
 				break;
@@ -442,7 +454,6 @@ void popolScene::playerMovement()
 		{
 			if (floorOn)
 			{
-				//cout << "벽에 충돌함 ===============================" << endl;
 				rc.left = bFrameLeft;
 				rc.right = bFreameRight;
 				coll = true;
@@ -451,7 +462,6 @@ void popolScene::playerMovement()
 			}
 			else if (!floorOn)
 			{
-				//cout << "벽에 충돌함 ===============================" << endl;
 				rc.left = bFrameLeft;
 				rc.right = bFreameRight;
 				coll = true;
@@ -480,7 +490,6 @@ void popolScene::playerMovement()
 			{
 				rc.bottom = i + 5;
 				rc.top = rc.bottom - 60;
-				cout << "밑에 땅이 가까이 있기 때문에 추락하지 않음 " << endl;
 				floorCheck = true;
 				break;
 			}
@@ -494,13 +503,11 @@ void popolScene::playerMovement()
 	if (floorCheck)
 	{
 		floorOn = true;
-		cout << "바닥임" << endl;
 	}
 	else if (!floorCheck)
 	{
 		floorOn = false;
-		cout << "충돌 안 함, 내 좌표 ->x : " << rc2.left << ", y : " << rc2.bottom << endl;
-		cout << "바닥이 아님" << endl;
+
 	}
 
 
@@ -518,7 +525,6 @@ void popolScene::playerMovement()
 		rc.top += 5;
 		rc.bottom += 5;
 		landing = 1;
-		cout << "추락함" << endl;
 
 	}
 
@@ -539,20 +545,15 @@ void popolScene::playerMovement()
 
 	if (hitOn)
 	{
-		cout << "몬스터에게 공격 당함" << endl;
-		cout << hitState << endl;
+
 
 	}
 	
-	//cout << "이번 플레이어 rc의 좌표 : " << rc.left << " , " << rc.bottom << endl;
-	//cout << "이번 플레이어 rc2의 좌표 : " << rc2.left << " , " << rc2.bottom << endl;
 	if (coll)
 	{
-		cout << "이번 업데이트에서는 충돌함 " << endl;
 	}
 
 
-	cout << endl;
 
 
 
@@ -567,268 +568,254 @@ void popolScene::playerMovement()
 
 void popolScene::monsterMoveMent()
 {
-	cout << endl;
-	cout << "몬스터 업데이트 시작 좌표 y :" << rc2.bottom << endl;
-
-	if (!m[0].steMode && !m[0].attackOn)
+	for (int i = 0; i < 2; i++)
 	{
-		//플레이어가 몬스터 오른쪽에 있음
-		if ((rc2.left + 30) - (m[0].mRc.left + 30) > 0)
+		
+		if (!m[i].steMode && !m[i].attackOn)
 		{
-			m[0].mRc.left += 2;
-			m[0].mRc.right += 2;
-			m[0].dy = 0;
-
-			m[0].state = 1;
-
-			m[0].monsterImg = IMAGEMANAGER->findImage("skel_walk");
-			m[0].monsterImg->setFrameY(m[0].dy);
-			m[0].monsterImg->setFrameX(m[0].runState++ / 5);
-
-
-			m[0].ste += 1;
-
-		}
-		else if ((rc2.left + 30) - (m[0].mRc.left + 30) == 0)
-		{
-			//
-		}
-		//플레이어가 몬스터 왼쪽에 있음
-		else {
-			m[0].mRc.left -= 2;
-			m[0].mRc.right -= 2;
-			m[0].dy = 1;
-
-			m[0].state = 1;
-
-			m[0].monsterImg = IMAGEMANAGER->findImage("skel_walk");
-			m[0].monsterImg->setFrameY(m[0].dy);
-			m[0].monsterImg->setFrameX(m[0].runState++ / 5);
-
-			m[0].ste += 1;
-		}
-
-	}
-
-
-
-
-
-	//대기 상태라면
-	if (m[0].state == 0)
-	{
-		m[0].monsterImg->setFrameY(m[0].dy);
-		m[0].monsterImg->setFrameX(idleState++ / 5);
-		if (m[0].ste > 0)
-		{
-			m[0].ste -= 1;
-		}
-
-		if (m[0].ste == 0)
-		{
-			m[0].steMode = false;
-		}
-
-	}
-
-	if (m[0].attackOn)
-	{
-
-		m[0].monsterImg->setFrameY(m[0].dy);
-		m[0].monsterImg->setFrameX(m[0].attackState++ / 5);
-		m[0].ste += 1;
-	}
-	//hit, death 추가해야함
-	
-
-
-
-	if (m[0].idleState > 90)
-	{
-		m[0].idleState = 0;
-	}
-
-	if (m[0].runState > 65)
-	{
-		m[0].runState = 0;
-	}
-
-	if (m[0].attackState > 90)
-	{
-		m[0].attackState = 0;
-		m[0].attackOn = false;
-		m[0].state = 0;
-		m[0].monsterImg = IMAGEMANAGER->findImage("skel_idle");
-		m[0].monsterImg->setFrameY(dy);
-	}
-
-	if (m[0].ste > 500 && !m[0].attackOn)
-	{
-		m[0].state = 0;
-		m[0].monsterImg = IMAGEMANAGER->findImage("skel_idle");
-		m[0].monsterImg->setFrameY(dy);
-		m[0].steMode = true;
-	}
-
-
-
-
-
-	m[0].floorCheck = false;
-	m[0].coll = false;
-
-	//몬스터 픽셀 충돌
-	cout << "충돌 직전 value 측정 " << endl;
-	cout << "==============================================" << endl;
-	cout << "monster의 bottom값 : " << m[0].mRc.bottom << endl;
-	cout << "==============================================" << endl;
-
-	//바닥 충돌
-	for (int i = m[0].mRc.top; i < m[0].mRc.bottom; i++)
-	{
-		//픽셀 컬러 속성에 따른 충돌 판정을 위해 만듦
-		auto color = GetPixel(IMAGEMANAGER->findImage("배경3_c")->getMemDC(), m[0].mRc.left+30, i);
-
-		int r = GetRValue(color);
-		int g = GetGValue(color);
-		int b = GetBValue(color);
-
-		//바닥에 충돌한 경우
-		if ((r == 0 && g == 0 && b == 0))
-		{
-
-			//이동할려는 위치가 나보다 많이 크지 않다면 
-			if (m[0].bHeight - i <= 20) {
-				cout << "충돌함, 충돌한 좌표 ->x : " << m[0].mRc.left + 30 << ", y : " << i << endl;
-				cout << i << " - " << bHeight << " = " << i - bHeight << endl;
-				//대상 이미지의 가장 겉의 라인을 따라가면서 움직일 수 있도록
-				m[0].mRc.bottom = i + 5;
-				m[0].mRc.top = m[0].mRc.bottom - 60;
-
-				//이미지 끼리 닿인 부분의 색은
-				//cout << "검사할 부분의 좌표는 -> x : " << rc2.left + 15 << "y : " << i << endl;
-				cout << "r : " << r << "g : " << g << "b : " << b << "입니다." << endl;
-				m[0].coll = true;
-				m[0].floorCheck = true;
-				break;
-			}
-
-		}
-		//벽에 충돌한 경우
-		else if ((r == 255 && g == 0 && b == 0))
-		{
-			if (m[0].floorOn)
+			//플레이어가 몬스터 오른쪽에 있음
+			if ((rc2.left + 30) - (m[i].mRc.left + 30) > 0)
 			{
-				//cout << "벽에 충돌함 ===============================" << endl;
-				m[0].mRc.left = m[0].bFrameLeft;
-				m[0].mRc.right = m[0].bFreameRight;
-				m[0].coll = true;
-				m[0].floorCheck = true;
+				m[i].mRc.left += 2;
+				m[i].mRc.right += 2;
+				m[i].dy = 0;
+
+				m[i].state = 1;
+
+				m[i].monsterImg = IMAGEMANAGER->findImage("skel_walk");
+				m[i].monsterImg->setFrameY(m[i].dy);
+				m[i].monsterImg->setFrameX(m[i].runState++ / 5);
+
+
+				m[i].ste += 1;
 
 			}
-			else if (!m[0].floorOn)
+			else if ((rc2.left + 30) - (m[i].mRc.left + 30) == 0)
 			{
-				//cout << "벽에 충돌함 ===============================" << endl;
-				m[0].mRc.left = m[0].bFrameLeft;
-				m[0].mRc.right = m[0].bFreameRight;
-				m[0].coll = true;
+				//
+			}
+			//플레이어가 몬스터 왼쪽에 있음
+			else {
+				m[i].mRc.left -= 2;
+				m[i].mRc.right -= 2;
+				m[i].dy = 1;
 
+				m[i].state = 1;
+
+				m[i].monsterImg = IMAGEMANAGER->findImage("skel_walk");
+				m[i].monsterImg->setFrameY(m[i].dy);
+				m[i].monsterImg->setFrameX(m[i].runState++ / 5);
+
+				m[i].ste += 1;
 			}
 
 		}
 
 
-	}
 
-	//바닥인 상태에서 충돌하지 않았을 경우에 만약 내 밑 20 픽셀중에 땅이 있다면 추락하지 않음
-	if (!m[0].coll && m[0].floorOn)
-	{
-		for (int i = m[0].mRc.bottom; i < m[0].mRc.bottom +20; i++)
+		
+
+		//대기 상태라면
+		if (m[i].state == 0)
+		{
+			m[i].monsterImg->setFrameY(m[i].dy);
+			m[i].monsterImg->setFrameX(idleState++ / 5);
+			if (m[i].ste > 0)
+			{
+				m[i].ste -= 1;
+			}
+
+			if (m[i].ste == 0)
+			{
+				m[i].steMode = false;
+			}
+
+		}
+
+		if (m[i].attackOn)
+		{
+
+			m[i].monsterImg->setFrameY(m[i].dy);
+			m[i].monsterImg->setFrameX(m[i].attackState++ / 5);
+			m[i].ste += 1;
+		}
+		//hit, death 추가해야함
+
+
+
+
+		if (m[i].idleState > 90)
+		{
+			m[i].idleState = 0;
+		}
+
+		if (m[i].runState > 65)
+		{
+			m[i].runState = 0;
+		}
+
+		if (m[i].attackState > 90)
+		{
+			m[i].attackState = 0;
+			m[i].attackOn = false;
+			m[i].state = 0;
+			m[i].monsterImg = IMAGEMANAGER->findImage("skel_idle");
+			m[i].monsterImg->setFrameY(dy);
+		}
+
+		if (m[i].ste > 500 && !m[i].attackOn)
+		{
+			m[i].state = 0;
+			m[i].monsterImg = IMAGEMANAGER->findImage("skel_idle");
+			m[i].monsterImg->setFrameY(dy);
+			m[i].steMode = true;
+		}
+
+
+
+		
+
+		m[i].floorCheck = false;
+		m[i].coll = false;
+
+		//몬스터 픽셀 충돌
+
+		//바닥 충돌
+		for (int j = m[i].mRc.top; j < m[i].mRc.bottom; j++)
 		{
 			//픽셀 컬러 속성에 따른 충돌 판정을 위해 만듦
-			auto color = GetPixel(IMAGEMANAGER->findImage("배경3_c")->getMemDC(), m[0].mRc.left + 30, i);
+			auto color = GetPixel(IMAGEMANAGER->findImage("배경3_c")->getMemDC(), m[i].mRc.left + 30, j);
 
 			int r = GetRValue(color);
 			int g = GetGValue(color);
 			int b = GetBValue(color);
 
-			//이미지 끼리 닿인 부분이 마젠타 색상이 아닐 경우
-			if (!(r == 255 & g == 0 & b == 255))
+			//바닥에 충돌한 경우
+			if ((r == 0 && g == 0 && b == 0))
 			{
-				m[0].mRc.bottom = i + 5;
-				m[0].mRc.top = m[0].mRc.bottom - 60;
-				cout << "밑에 땅이 가까이 있기 때문에 추락하지 않음 " << endl;
-				m[0].floorCheck = true;
-				break;
+
+				//이동할려는 위치가 나보다 많이 크지 않다면 
+				if (m[i].bHeight - j <= 20) {
+					//대상 이미지의 가장 겉의 라인을 따라가면서 움직일 수 있도록
+					m[i].mRc.bottom = j + 5;
+					m[i].mRc.top = m[i].mRc.bottom - 60;
+
+					//이미지 끼리 닿인 부분의 색은
+					m[i].coll = true;
+					m[i].floorCheck = true;
+					break;
+				}
+
+			}
+			//벽에 충돌한 경우
+			else if ((r == 255 && g == 0 && b == 0))
+			{
+				if (m[i].floorOn)
+				{
+					m[i].mRc.left = m[i].bFrameLeft;
+					m[i].mRc.right = m[i].bFreameRight;
+					m[i].coll = true;
+					m[i].floorCheck = true;
+
+				}
+				else if (!m[i].floorOn)
+				{
+					m[i].mRc.left = m[i].bFrameLeft;
+					m[i].mRc.right = m[i].bFreameRight;
+					m[i].coll = true;
+
+				}
+
+			}
+
+
+		}
+		
+		//바닥인 상태에서 충돌하지 않았을 경우에 만약 내 밑 20 픽셀중에 땅이 있다면 추락하지 않음
+		if (!m[i].coll && m[i].floorOn)
+		{
+			for (int j = m[i].mRc.bottom; j < m[i].mRc.bottom + 20; j++)
+			{
+				//픽셀 컬러 속성에 따른 충돌 판정을 위해 만듦
+				auto color = GetPixel(IMAGEMANAGER->findImage("배경3_c")->getMemDC(), m[i].mRc.left + 30, j);
+
+				int r = GetRValue(color);
+				int g = GetGValue(color);
+				int b = GetBValue(color);
+
+				//이미지 끼리 닿인 부분이 마젠타 색상이 아닐 경우
+				if (!(r == 255 & g == 0 & b == 255))
+				{
+					m[i].mRc.bottom = j + 5;
+					m[i].mRc.top = m[i].mRc.bottom - 60;
+					m[i].floorCheck = true;
+					break;
+				}
 			}
 		}
-	}
+		
+		RECT tempRect;
 
-	RECT tempRect;
-
-	for (int i = 0; i < 2; i++)
-	{
-		//테투리만 겹쳐서는 충돌이 안됨! ->speed만큼 겹친 부분이 존재
-		if (IntersectRect(&tempRect, &rc2, &m[0].mRc) && !m[0].steMode)
+		for (int j = 0; j < 2; j++)
 		{
-			m[0].state = 2;
-			m[0].attackOn = true;
-			m[0].monsterImg = IMAGEMANAGER->findImage("skel_attack");
+			//테투리만 겹쳐서는 충돌이 안됨! ->speed만큼 겹친 부분이 존재
+			if (IntersectRect(&tempRect, &rc2, &m[i].mRc) && !m[i].steMode)
+			{
+				m[i].state = 2;
+				m[i].attackOn = true;
+				m[i].monsterImg = IMAGEMANAGER->findImage("skel_attack");
+			}
+
+		}
+		
+
+		if (m[i].floorCheck)
+		{
+			m[i].floorOn = true;
+		}
+		else if (!m[i].floorCheck)
+		{
+			m[i].floorOn = false;
+
 		}
 
+
+		//바닥이 아니고 점프 중이 아니라면 
+		if (!m[i].floorOn)
+		{
+			m[i].mRc.top += 5;
+			m[i].mRc.bottom += 5;
+			m[i].landing = 1;
+
+		}
+
+		if (m[i].landing == 1 && m[i].floorOn)
+		{
+
+			m[i].landing = 0;
+
+		}
+
+
+		if (m[i].coll)
+		{
+		}
+
+
+
+
+
+		m[i].bFrameLeft = m[i].mRc.left;
+		m[i].bFreameRight = m[i].mRc.right;
+		m[i].bHeight = m[i].mRc.bottom;
+		
+
 	}
 	
 
-	if (m[0].floorCheck)
-	{
-		m[0].floorOn = true;
-		cout << "바닥임" << endl;
-	}
-	else if (!m[0].floorCheck)
-	{
-		m[0].floorOn = false;
-		cout << "충돌 안 함, 내 좌표 ->x : " << rc2.left << ", y : " << rc2.bottom << endl;
-		cout << "바닥이 아님" << endl;
-	}
 
 
-	//바닥이 아니고 점프 중이 아니라면 
-	if (!m[0].floorOn)
-	{
-		m[0].mRc.top += 5;
-		m[0].mRc.bottom += 5;
-		m[0].landing = 1;
-		cout << "추락함" << endl;
-
-	}
-
-	if (m[0].landing == 1 && m[0].floorOn)
-	{
 	
-		m[0].landing = 0;
-
-	}
-
-	//cout << "이번 플레이어 rc의 좌표 : " << rc.left << " , " << rc.bottom << endl;
-	//cout << "이번 플레이어 rc2의 좌표 : " << rc2.left << " , " << rc2.bottom << endl;
-	
-	if (m[0].coll)
-	{
-		cout << "이번 업데이트에서는 충돌함 " << endl;
-	}
-
-
-	cout << endl;
-
-
-
-	m[0].bFrameLeft = m[0].mRc.left;
-	m[0].bFreameRight = m[0].mRc.right;
-	m[0].bHeight = m[0].mRc.bottom;
-
-
-
-
 }
 
 void popolScene::playerInit()
@@ -868,7 +855,6 @@ void popolScene::playerInit()
 
 	_probeY = rc2.top + player->getHeight() / 2;
 	bHeight = rc2.bottom;
-	cout << player->getHeight() / 4 << endl;
 }
 
 void popolScene::monsterInit()
@@ -889,17 +875,53 @@ void popolScene::monsterInit()
 		WINSIZE_X / 2, WINSIZE_Y / 2, 832, 128, 8, 2, true, RGB(255, 0, 255));
 
 
-	m[0].mRc = RectMake(800, 100, 60, 60);
+	
+	for (int i = 0; i < 2; i++)
+	{
+		
 
 
-	m[0].monsterImg = IMAGEMANAGER->findImage("skel_idle");
-	m[0].monsterImg->setFrameX(0);
-	m[0].monsterImg->setFrameY(0);
-	m[0].state = 0;
-	m[0].dy = 0;
+		m[i].monsterImg = IMAGEMANAGER->findImage("skel_idle");
+		m[i].monsterImg->setFrameX(0);
+		m[i].monsterImg->setFrameY(0);
+		m[i].state = 0;
+		m[i].dy = 0;
+
+	}
+	
+	m[0].mRc = RectMake(800, 500, 60, 60);
+	m[1].mRc = RectMake(1000, 450, 60, 60);
+
+
+	
+	
 
 
 
+}
+
+void popolScene::cameraMove()
+{
+
+	RECT tempRect2;
+	if (IntersectRect(&tempRect2, &rc2, &cameraPoint1))
+	{
+		if (cameraState == 0)
+		{
+
+		}
+		else
+		{
+
+		}
+	}
+	
+
+
+}
+
+void popolScene::UI()
+{
 
 
 
