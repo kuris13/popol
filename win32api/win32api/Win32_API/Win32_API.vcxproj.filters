@@ -156,6 +156,15 @@
     <ClCompile Include="GeometricUtility.cpp">
       <Filter>API_FrameWork\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="stage2.cpp">
+      <Filter>API_FrameWork\SampleScene\popol</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>API_FrameWork\SampleScene\popol</Filter>
+    </ClCompile>
+    <ClCompile Include="monster.cpp">
+      <Filter>API_FrameWork\SampleScene\popol</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonMacroFunction.h">
@@ -249,6 +258,12 @@
       <Filter>API_FrameWork\SampleScene\popol</Filter>
     </ClInclude>
     <ClInclude Include="UI.h">
+      <Filter>API_FrameWork\SampleScene\popol</Filter>
+    </ClInclude>
+    <ClInclude Include="stage2.h">
+      <Filter>API_FrameWork\SampleScene\popol</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
       <Filter>API_FrameWork\SampleScene\popol</Filter>
     </ClInclude>
   </ItemGroup>

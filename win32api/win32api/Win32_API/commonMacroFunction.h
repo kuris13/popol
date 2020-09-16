@@ -39,6 +39,19 @@ inline void LineMake(HDC hdc, POINT startPT, POINT endPT)
 	LineTo(hdc, endPT.x, endPT.y);
 }
 
+bool collision(HDC, RECT player, RECT monster)
+{
+	RECT tempRect;
+	if(IntersectRect(&tempRect, &player, &monster))
+	{
+
+	}
+}
+
+
+
+
+
 //인라인 함수 (inline function)
 /*
 	1. 개요

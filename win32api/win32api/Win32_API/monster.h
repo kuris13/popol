@@ -2,7 +2,6 @@
 #include "setDefine.h"
 class monster
 {
-private:
 
 public:
 
@@ -47,7 +46,8 @@ public:
 
 	RECT mRc;
 
-
-
+	void monsterInit();
+	void monsterMoveMent();
+	void setLocation(int x, int y);
 
 };
