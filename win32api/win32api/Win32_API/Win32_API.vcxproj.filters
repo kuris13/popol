@@ -46,9 +46,6 @@
     <Filter Include="API_FrameWork\SampleScene\05.p_Scene">
       <UniqueIdentifier>{82ca550e-4a1a-40ed-9f69-f89d3d553d0b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="API_FrameWork\SampleScene\06.bird">
-      <UniqueIdentifier>{3f10538f-3210-4bc7-a0d3-e0c303de9daf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="API_FrameWork\SampleScene\07.Shop">
       <UniqueIdentifier>{56a9d5b8-c2cb-4f8d-9c51-e4fd4b81b82b}</UniqueIdentifier>
     </Filter>
@@ -117,12 +114,6 @@
     <ClCompile Include="sceneManager.cpp">
       <Filter>API_FrameWork\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="birdScene.cpp">
-      <Filter>API_FrameWork\SampleScene\06.bird</Filter>
-    </ClCompile>
-    <ClCompile Include="flappyBird.cpp">
-      <Filter>API_FrameWork\SampleScene\06.bird</Filter>
-    </ClCompile>
     <ClCompile Include="Scene_shop.cpp">
       <Filter>API_FrameWork\SampleScene\07.Shop</Filter>
     </ClCompile>
@@ -130,9 +121,6 @@
       <Filter>API_FrameWork\SampleScene\07.Shop</Filter>
     </ClCompile>
     <ClCompile Include="soundManager.cpp">
-      <Filter>API_FrameWork\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="cameraManager.cpp">
       <Filter>API_FrameWork\Manager</Filter>
     </ClCompile>
     <ClCompile Include="popolScene.cpp">
@@ -164,6 +152,9 @@
     </ClCompile>
     <ClCompile Include="monster.cpp">
       <Filter>API_FrameWork\SampleScene\popol</Filter>
+    </ClCompile>
+    <ClCompile Include="collisionFucntion.cpp">
+      <Filter>API_FrameWork\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -215,12 +206,6 @@
     <ClInclude Include="sceneManager.h">
       <Filter>API_FrameWork\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="birdScene.h">
-      <Filter>API_FrameWork\SampleScene\06.bird</Filter>
-    </ClInclude>
-    <ClInclude Include="flappyBird.h">
-      <Filter>API_FrameWork\SampleScene\06.bird</Filter>
-    </ClInclude>
     <ClInclude Include="Scene_shop.h">
       <Filter>API_FrameWork\SampleScene\07.Shop</Filter>
     </ClInclude>
@@ -228,9 +213,6 @@
       <Filter>API_FrameWork\SampleScene\07.Shop</Filter>
     </ClInclude>
     <ClInclude Include="soundManager.h">
-      <Filter>API_FrameWork\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="cameraManager.h">
       <Filter>API_FrameWork\Manager</Filter>
     </ClInclude>
     <ClInclude Include="popolScene.h">
@@ -265,6 +247,9 @@
     </ClInclude>
     <ClInclude Include="player.h">
       <Filter>API_FrameWork\SampleScene\popol</Filter>
+    </ClInclude>
+    <ClInclude Include="collisionFucntion.h">
+      <Filter>API_FrameWork\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

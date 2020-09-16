@@ -202,12 +202,3 @@ void setWindowSize(int x, int y, int width, int height)
 		SWP_NOZORDER | SWP_NOMOVE);
 }
 
-/*
-	연습용 문제
-
-	1. 지금까지 배운 도형을 이용하여 대~충 사람 얼굴 만들어보기
-	(Rectangle, Ellipse, Line 등등)
-	
-	2. 만들고 난 뒤에 키보드 방향키 입력으로 사람 눈 움직여보기
-	3. 코 또는 입은 마우스 드래그로 움직이게 만든다
-*/

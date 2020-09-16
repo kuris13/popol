@@ -135,9 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="birdScene.cpp" />
-    <ClCompile Include="cameraManager.cpp" />
-    <ClCompile Include="flappyBird.cpp" />
+    <ClCompile Include="collisionFucntion.cpp" />
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="GeometricUtility.cpp" />
     <ClCompile Include="image.cpp" />
@@ -166,10 +164,8 @@
     <ClCompile Include="udo_Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="birdScene.h" />
-    <ClInclude Include="cameraManager.h" />
+    <ClInclude Include="collisionFucntion.h" />
     <ClInclude Include="commonMacroFunction.h" />
-    <ClInclude Include="flappyBird.h" />
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="GeometricUtility.h" />
     <ClInclude Include="image.h" />

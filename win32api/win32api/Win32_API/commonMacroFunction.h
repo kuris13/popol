@@ -39,16 +39,18 @@ inline void LineMake(HDC hdc, POINT startPT, POINT endPT)
 	LineTo(hdc, endPT.x, endPT.y);
 }
 
-bool collision(HDC, RECT player, RECT monster)
+inline void adb()
 {
-	RECT tempRect;
-	if(IntersectRect(&tempRect, &player, &monster))
-	{
 
-	}
+}
+/*
+bool RectCollision(HDC, RECT player, RECT monster)
+{
+	
+	return false;
 }
 
-
+*/
 
 
 

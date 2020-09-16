@@ -287,7 +287,7 @@ void player::playerMovement()
 	for (int i = _probeY - 30; i < _probeY + 30; i++)
 	{
 		//픽셀 컬러 속성에 따른 충돌 판정을 위해 만듦
-		auto color = GetPixel(IMAGEMANAGER->findImage("배경3_c")->getMemDC(), rc2.left + 30, i);
+		auto color = GetPixel(IMAGEMANAGER->findImage(backName)->getMemDC(), rc2.left + 30, i);
 
 		int r = GetRValue(color);
 		int g = GetGValue(color);

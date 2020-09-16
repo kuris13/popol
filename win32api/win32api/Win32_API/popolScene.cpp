@@ -22,10 +22,11 @@ HRESULT popolScene::init()
 	cameraPoint1 = RectMake(1250,0,100,WINSIZE_Y);
 
 	//==========================================
-	player2 = new player();
+	playerS->backName = "¹è°æ3_c";
+	playerS->playerInit();
 
-	player2->playerInit();
-
+	player2 = playerS;
+	
 
 	//==========================================
 	for (int i = 0; i < monsterCount; i++)
@@ -33,10 +34,11 @@ HRESULT popolScene::init()
 		m[i] = new monster();
 
 		m[i]->monsterInit();
+		m[i]->playerRect = &player2->rc2;
 
 	}
 	m[0]->setLocation(800, 500);
-	m[1]->setLocation(1000, 450);
+	m[1]->setLocation(1000, 400);
 	return S_OK;
 }
 
@@ -49,18 +51,11 @@ void popolScene::update()
 
 	player2->playerMovement();
 
-	m[0]->monsterMoveMent();
-
-
-
-
-
-
-
-
-
-
-
+	for (int i = 0; i < monsterCount; i++)
+	{
+		m[i]->monsterMoveMent();
+	}
+	
 
 	_alpha -= 3.0f;
 

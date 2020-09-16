@@ -29,8 +29,8 @@ using namespace std;
 #include "imageManager.h"
 #include "sceneManager.h"
 #include "soundManager.h"
-#include "cameraManager.h"
 #include "GeometricUtility.h"
+#include "collisionFucntion.h"
 using namespace G_UTIL;
 /* ===================================
 ½Ì±ÛÅæ
@@ -40,7 +40,7 @@ using namespace G_UTIL;
 #define IMAGEMANAGER imageManager::getSingleton()
 #define SCENEMANAGER sceneManager::getSingleton()
 #define SOUNDMANAGER soundManager::getSingleton()
-#define CAMERAMANAGER cameraManager::getSingleton()
+#define playerS player::getSingleton()
 /* ===================================
 		À©µµ¿ì define °ü·Ã
 =================================== */

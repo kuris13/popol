@@ -1,11 +1,18 @@
 #pragma once
-class player
+#include "singletonBase.h"
+class player : public singletonBase<player>
 {
+
+private :
+
+	int asb;
 public:
 	image* playerImg;
 
 	RECT rc;
 	RECT rc2;
+
+	string backName;
 
 	int _x, _y;
 
@@ -51,14 +58,11 @@ public:
 
 	bool noHitMode = false;
 
-
 	int lifeCount = 0;
 
 public:
 	void playerMovement();
-	void monsterMoveMent();
 	void playerInit();
-	void monsterInit();
 
 };
 

@@ -24,9 +24,6 @@ HRESULT mainGame::init()
 	//테스트Scene
 	SCENEMANAGER->addScene("테스트",new TestProj);
 
-	//bird
-	SCENEMANAGER->addScene("버드", new birdScene);
-
 	//shop
 	SCENEMANAGER->addScene("상점", new Scene_shop);
 
@@ -38,10 +35,11 @@ HRESULT mainGame::init()
 	SCENEMANAGER->addScene("슈팅", new Scene_ShootingBullet);
 
 	SCENEMANAGER->addScene("호밍", new udo_Scene);
+
 	//실행할 Scene을 선택
 	SCENEMANAGER->changeScene("알파렌더");
 
-	
+	SCENEMANAGER->addScene("포폴2", new stage2);
 
 
 
@@ -91,10 +89,6 @@ void mainGame::update()
 	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD5))
 		SCENEMANAGER->changeScene("픽셀충돌");
 
-
-	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD6))
-		SCENEMANAGER->changeScene("버드");
-
 	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD7))
 		SCENEMANAGER->changeScene("상점");
 
@@ -110,6 +104,11 @@ void mainGame::update()
 	if (KEYMANAGER->isOnceKeyDown(VK_F8))
 	{
 		SCENEMANAGER->changeScene("호밍");
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_F1))
+	{
+		SCENEMANAGER->changeScene("포폴2");
 	}
 
 }

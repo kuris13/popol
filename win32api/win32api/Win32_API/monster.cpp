@@ -29,6 +29,8 @@ void monster::monsterInit()
 		monsterImg = IMAGEMANAGER->findImage("skel_idle");
 		monsterImg->setFrameX(0);
 		monsterImg->setFrameY(0);
+
+
 		state = 0;
 		dy = 0;
 
@@ -42,50 +44,50 @@ void monster::monsterMoveMent()
 {
 	for (int i = 0; i < 2; i++)
 	{
-		/*
+		
 		if (!steMode && !attackOn)
 		{
-			//플레이어가 몬스터 오른쪽에 있음
-			if ((rc2.left + 30) - (m[i].mRc.left + 30) > 0)
+			//몬스터가 왼쪽
+			if ((playerRect->left + 30) - (mRc.left + 30) > 0)
 			{
-				m[i].mRc.left += 2;
-				m[i].mRc.right += 2;
-				m[i].dy = 0;
+				mRc.left += 2;
+				mRc.right += 2;
+				dy = 0;
 
-				m[i].state = 1;
+				state = 1;
 
-				m[i].monsterImg = IMAGEMANAGER->findImage("skel_walk");
-				m[i].monsterImg->setFrameY(m[i].dy);
-				m[i].monsterImg->setFrameX(m[i].runState++ / 5);
+				monsterImg = IMAGEMANAGER->findImage("skel_walk");
+				monsterImg->setFrameY(dy);
+				monsterImg->setFrameX(runState++ / 5);
 
 
-				m[i].ste += 1;
+				ste += 1;
 
-				cout << i << "번 몬스터는 플레이어 왼쪽에 있음, 몬스터의 방향" << m[i].dy << endl;
+				cout << i << "번 몬스터는 플레이어 왼쪽에 있음, 몬스터의 방향" <<dy << endl;
 
 			}
-			else if ((rc2.left + 30) - (m[i].mRc.left + 30) == 0)
+			else if ((playerRect->left + 30) - (mRc.left + 30) == 0)
 			{
 				//
 			}
 			//플레이어가 몬스터 왼쪽에 있음
-			else if ((rc2.left + 30) - (m[i].mRc.left + 30) < 0) {
-				m[i].mRc.left -= 2;
-				m[i].mRc.right -= 2;
-				m[i].dy = 1;
+			else if ((playerRect->left + 30) - (mRc.left + 30) < 0) {
+				mRc.left -= 2;
+				mRc.right -= 2;
+				dy = 1;
 
-				m[i].state = 1;
+				state = 1;
 
-				m[i].monsterImg = IMAGEMANAGER->findImage("skel_walk");
-				m[i].monsterImg->setFrameY(m[i].dy);
-				m[i].monsterImg->setFrameX(m[i].runState++ / 5);
+				monsterImg = IMAGEMANAGER->findImage("skel_walk");
+				monsterImg->setFrameY(dy);
+				monsterImg->setFrameX(runState++ / 5);
 
-				m[i].ste += 1;
-				cout << i << "번 몬스터는 플레이어 오른쪽에 있음, 몬스터의 방향" << m[i].dy << endl;
+				ste += 1;
+				cout << i << "번 몬스터는 플레이어 오른쪽에 있음, 몬스터의 방향" << dy << endl;
 			}
 
 		}
-		*/
+		
 		cout << endl;
 
 
