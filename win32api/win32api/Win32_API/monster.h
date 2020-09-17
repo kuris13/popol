@@ -6,7 +6,7 @@ class monster
 public:
 
 	image* monsterImg;
-
+	image Img;
 
 	RECT *playerRect;
 	//몬스터의 초기 좌표

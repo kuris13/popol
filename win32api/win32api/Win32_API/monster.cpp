@@ -27,6 +27,8 @@ void monster::monsterInit()
 
 
 		monsterImg = IMAGEMANAGER->findImage("skel_idle");
+
+
 		monsterImg->setFrameX(0);
 		monsterImg->setFrameY(0);
 
@@ -42,9 +44,8 @@ void monster::monsterInit()
 
 void monster::monsterMoveMent()
 {
-	for (int i = 0; i < 2; i++)
-	{
-		
+	
+	cout << "몬스터의 위치 " << mRc.left + 30 << endl;
 		if (!steMode && !attackOn)
 		{
 			//몬스터가 왼쪽
@@ -59,11 +60,10 @@ void monster::monsterMoveMent()
 				monsterImg = IMAGEMANAGER->findImage("skel_walk");
 				monsterImg->setFrameY(dy);
 				monsterImg->setFrameX(runState++ / 5);
-
+				cout << "나는 플레이어 왼쪽에 있다" << endl;
 
 				ste += 1;
-
-				cout << i << "번 몬스터는 플레이어 왼쪽에 있음, 몬스터의 방향" <<dy << endl;
+				
 
 			}
 			else if ((playerRect->left + 30) - (mRc.left + 30) == 0)
@@ -71,7 +71,8 @@ void monster::monsterMoveMent()
 				//
 			}
 			//플레이어가 몬스터 왼쪽에 있음
-			else if ((playerRect->left + 30) - (mRc.left + 30) < 0) {
+			else if ((playerRect->left + 30) - (mRc.left + 30) < 0) 
+			{
 				mRc.left -= 2;
 				mRc.right -= 2;
 				dy = 1;
@@ -81,16 +82,12 @@ void monster::monsterMoveMent()
 				monsterImg = IMAGEMANAGER->findImage("skel_walk");
 				monsterImg->setFrameY(dy);
 				monsterImg->setFrameX(runState++ / 5);
-
+				cout << "나는 플레이어 오른쪽에 있다" << endl;
 				ste += 1;
-				cout << i << "번 몬스터는 플레이어 오른쪽에 있음, 몬스터의 방향" << dy << endl;
+
 			}
 
 		}
-		
-		cout << endl;
-
-
 
 
 		//대기 상태라면
@@ -118,8 +115,6 @@ void monster::monsterMoveMent()
 			ste += 1;
 		}
 		//hit, death 추가해야함
-
-
 
 
 		if (idleState > 90)
@@ -286,16 +281,6 @@ void monster::monsterMoveMent()
 		bFrameLeft = mRc.left;
 		bFreameRight = mRc.right;
 		bHeight = mRc.bottom;
-
-
-	}
-
-
-
-	//cout << "이번 " << 0 << "번 째 몬스터의 방향은 " << m[0].dy << endl;
-	//cout << "이번 " << 1 << "번 째 몬스터의 방향은 " << m[1].dy << endl;
-
-	cout << endl;
 
 
 }

@@ -37,7 +37,7 @@ HRESULT popolScene::init()
 		m[i]->playerRect = &player2->rc2;
 
 	}
-	m[0]->setLocation(800, 500);
+	m[0]->setLocation(600, 500);
 	m[1]->setLocation(1000, 400);
 	return S_OK;
 }

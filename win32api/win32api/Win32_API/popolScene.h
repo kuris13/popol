@@ -14,7 +14,7 @@ private:
 	RECT cameraPoint1;
 
 	
-	monster *m[10];
+	monster *m[2];
 
 
 	int monsterCount = 2;
