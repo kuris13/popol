@@ -1,6 +1,6 @@
 #include "setDefine.h"
 #include "monster.h"
-
+#include "player.h"
 void monster::monsterInit()
 {
 
@@ -19,12 +19,11 @@ void monster::monsterInit()
 	IMAGEMANAGER->addFrameImage("skel_hit", "Images/skel/hit.bmp",
 		WINSIZE_X / 2, WINSIZE_Y / 2, 832, 128, 8, 2, true, RGB(255, 0, 255));
 
-
-
+	
 	for (int i = 0; i < 2; i++)
 	{
 
-
+		
 
 		monsterImg = IMAGEMANAGER->findImage("skel_idle");
 
@@ -60,7 +59,6 @@ void monster::monsterMoveMent()
 				monsterImg = IMAGEMANAGER->findImage("skel_walk");
 				monsterImg->setFrameY(dy);
 				monsterImg->setFrameX(runState++ / 5);
-				cout << "나는 플레이어 왼쪽에 있다" << endl;
 
 				ste += 1;
 				
@@ -82,7 +80,6 @@ void monster::monsterMoveMent()
 				monsterImg = IMAGEMANAGER->findImage("skel_walk");
 				monsterImg->setFrameY(dy);
 				monsterImg->setFrameX(runState++ / 5);
-				cout << "나는 플레이어 오른쪽에 있다" << endl;
 				ste += 1;
 
 			}
@@ -114,7 +111,14 @@ void monster::monsterMoveMent()
 			monsterImg->setFrameX(attackState++ / 5);
 			ste += 1;
 		}
-		//hit, death 추가해야함
+
+		if (hitOn)
+		{
+			monsterImg->setFrameY(dy);
+			monsterImg->setFrameX(hitState++ / 5);
+		}
+
+		//death 추가해야함
 
 
 		if (idleState > 90)
@@ -142,6 +146,15 @@ void monster::monsterMoveMent()
 			monsterImg = IMAGEMANAGER->findImage("skel_idle");
 			monsterImg->setFrameY(dy);
 			steMode = true;
+		}
+
+		if (hitState > 40)
+		{
+			hitState = 0;
+			hitOn = false;
+			state = 0;
+			monsterImg = IMAGEMANAGER->findImage("skel_idle");
+			monsterImg->setFrameY(dy);
 		}
 
 
@@ -226,21 +239,37 @@ void monster::monsterMoveMent()
 				}
 			}
 		}
-		/*
+		
+
 		RECT tempRect;
 
 		for (int j = 0; j < 2; j++)
 		{
-			//테투리만 겹쳐서는 충돌이 안됨! ->speed만큼 겹친 부분이 존재
-			if (IntersectRect(&tempRect, &rc2, &m[i].mRc) && !m[i].steMode)
+
+			//내가 공격중이 아닐 때
+			if (IntersectRect(&tempRect, playerRect, &mRc) && !attackOn  &&playerS->attackOn)
 			{
-				m[i].state = 2;
-				m[i].attackOn = true;
-				m[i].monsterImg = IMAGEMANAGER->findImage("skel_attack");
+				//피격
+				state = 3;
+				hitOn = true;
+				monsterImg = IMAGEMANAGER->findImage("skel_hit");
+
+			}
+			else if (IntersectRect(&tempRect, playerRect, &mRc) && !steMode &&!hitOn)
+			{
+				//공격
+				state = 2;
+				attackOn = true;
+				monsterImg = IMAGEMANAGER->findImage("skel_attack");
+
 			}
 
+
+			
 		}
-		*/
+		
+
+
 
 		if (floorCheck)
 		{
@@ -281,7 +310,6 @@ void monster::monsterMoveMent()
 		bFrameLeft = mRc.left;
 		bFreameRight = mRc.right;
 		bHeight = mRc.bottom;
-
 
 }
 

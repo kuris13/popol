@@ -12,6 +12,11 @@ public:
 	RECT rc;
 	RECT rc2;
 
+	int monstCount = 0;
+	bool isMonsterAttack[10] = { false };
+	RECT mRc[10];
+
+
 	string backName;
 
 	int _x, _y;
@@ -63,6 +68,5 @@ public:
 public:
 	void playerMovement();
 	void playerInit();
-
 };
 

@@ -136,28 +136,10 @@ void player::playerMovement()
 		//hit상태
 		state = 6;
 
-		/*
-		//플레이어가 몬스터 오른쪽에 있음
-		if ((rc2.left + 30) - (m[hitMonNum].mRc.left + 30) > 0)
-		{
-			rc.left += 5;
-			rc.right += 5;
-
-
-		}
-		else if ((rc2.left + 30) - (m[hitMonNum].mRc.left + 30) == 0)
-		{
-			//
-		}
-		//플레이어가 몬스터 왼쪽에 있음
-		else {
-			rc.left -= 5;
-			rc.right -= 5;
-
-		}
-		*/
+		
 	}
 	
+
 	if (noHitMode)
 	{
 		noHitGa++;
@@ -227,26 +209,48 @@ void player::playerMovement()
 			playerImg->setFrameY(dy);
 		}
 
-
 	}
 
-	/*
+	cout << "===============================================" << endl;
+	cout << "before  monster collision check             " << endl;
+	cout << "monsterCount : " <<monstCount << endl;
+	cout << "frist monster's rect + 30  : " << mRc[0].left + 30 << endl;
+	cout << "frist monster's isAttack   : " << isMonsterAttack[0] << endl;
+	cout << "second monster's rect + 30  : " << mRc[1].left + 30 << endl;
+	cout << "second monster's isAttack   : " << isMonsterAttack[1] << endl;
+	cout << "===============================================" << endl;
+
+
 	RECT tempRect;
 
 	//몬스터의 수많큼 반복 
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < monstCount; i++)
 	{
+
 		//테투리만 겹쳐서는 충돌이 안됨! ->speed만큼 겹친 부분이 존재
-		if (IntersectRect(&tempRect, &rc2, &m[i].mRc) && !hitOn &&m[i].state == 2 && !noHitMode)
+		if (IntersectRect(&tempRect, &rc2, &mRc[i]) && !hitOn &&isMonsterAttack[i] &&!attackOn &&!noHitMode)
 		{
 			//내가 회피중이 아닐 때 몬스터와 충돌한다면
-			if (!rollOn)
+			if (!rollOn &&((IMAGEMANAGER->findImage("skel_attack")->getFrameX() >7) && (IMAGEMANAGER->findImage("skel_attack")->getFrameX() <12)) )
 			{
 				hitOn = true;
 				noHitMode = true;
 				hitMonNum = i;
-
+				
 				--lifeCount;
+
+				//내가 몬스터보다 오른쪽에 있다면 
+				if (rc2.left + 30 > mRc[i].left+30)
+				{
+					rc.left += 20;
+					rc.right += 20;
+
+				}
+				else
+				{
+					rc.left -= 20;
+					rc.right -= 20;
+				}
 
 				if (lifeCount == 0)
 				{
@@ -259,7 +263,7 @@ void player::playerMovement()
 
 	}
 
-	*/
+	
 
 	floorCheck = false;
 	coll = false;
@@ -461,6 +465,8 @@ void player::playerInit()
 
 	_probeY = rc2.top + playerImg->getHeight() / 2;
 	bHeight = rc2.bottom;
+
+	lifeCount = 4;
 
 }
 

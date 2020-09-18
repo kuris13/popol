@@ -48,6 +48,23 @@ void popolScene::release()
 
 void popolScene::update()
 {
+	//플레이어에게 몬스터의 정보 입력 -> 몬스터와의 충돌 처리에 사용
+	player2->monstCount = monsterCount;
+
+	for (int i = 0; i < monsterCount; i++)
+	{
+		player2->mRc[i] = m[i]->mRc;
+
+		if (m[i]->state == 2)
+		{
+			player2->isMonsterAttack[i] = true;
+		}
+		else
+		{
+			player2->isMonsterAttack[i] = false;
+		}
+	}
+
 
 	player2->playerMovement();
 
@@ -78,12 +95,12 @@ void popolScene::render()
 
 	IMAGEMANAGER->render("배경3", getMemDC());
 	
-	/*
-	for (int i = 0; i < player2.lifeCount; i++)
+	
+	for (int i = 0; i < player2->lifeCount; i++)
 	{
 		IMAGEMANAGER->render("체력", getMemDC(),30+i*55,50);
 	}
-
+	/*
 
 	//RectangleMake(getMemDC(), rc);
 	//RectangleMake(getMemDC(), rc2);
@@ -103,12 +120,9 @@ void popolScene::render()
 	}
 	*/
 
-
-
-
 	if (player2->state == 0)
 	{
-		IMAGEMANAGER->frameRender("p_idle", getMemDC(),player2->rc.left, player2->rc.top);
+		IMAGEMANAGER->frameRender("p_idle", getMemDC(), player2->rc.left, player2->rc.top);
 	}
 	else if (player2->state == 1)
 	{
@@ -135,22 +149,38 @@ void popolScene::render()
 		IMAGEMANAGER->frameRender("p_hit", getMemDC(), player2->rc.left, player2->rc.top);
 	}
 
+
+	
+
 	
 	for (int i = 0; i < monsterCount; i++)
 	{
 		if (m[i]->state == 0)
 		{
+			m[i]->monsterImg = IMAGEMANAGER->findImage("skel_idle");
+			m[i]->monsterImg->setFrameY(m[i]->dy);
 			IMAGEMANAGER->frameRender("skel_idle", getMemDC(), m[i]->mRc.left, m[i]->mRc.top);
 
 		}
 		else if (m[i]->state == 1)
 		{
+			m[i]->monsterImg = IMAGEMANAGER->findImage("skel_walk");
+			m[i]->monsterImg->setFrameY(m[i]->dy);
 			IMAGEMANAGER->frameRender("skel_walk", getMemDC(), m[i]->mRc.left, m[i]->mRc.top);
 
 		}
 		else if (m[i]->state == 2)
 		{
+			m[i]->monsterImg = IMAGEMANAGER->findImage("skel_attack");
+			m[i]->monsterImg->setFrameY(m[i]->dy);
 			IMAGEMANAGER->frameRender("skel_attack", getMemDC(), m[i]->mRc.left, m[i]->mRc.top);
+
+		}
+		else if (m[i]->state == 3)
+		{
+			m[i]->monsterImg = IMAGEMANAGER->findImage("skel_hit");
+			m[i]->monsterImg->setFrameY(m[i]->dy);
+			IMAGEMANAGER->frameRender("skel_hit", getMemDC(), m[i]->mRc.left, m[i]->mRc.top);
 
 		}
 	}
@@ -170,32 +200,8 @@ void popolScene::render()
 	IMAGEMANAGER->alphaRender("화살표", getMemDC(), WINSIZE_X - 75, WINSIZE_Y / 2 - 40, _alpha);
 
 
-	//sprintf(str, "마우스 좌표 x : %d , y : %d  m[0]의 ste : %d", _ptMouse.x, _ptMouse.y,m[0].ste);
+	//sprintf(str, "마우스 좌표 x : %d , y : %d  m[0]의 ste : %d", _ptMouse.x, _ptMouse.y, m[0]->ste);
 	//TextOut(getMemDC(), 10, 10, str, strlen(str));
 	
 	
 }
-
-
-//========================================================================================================
-//========================================================================================================
-//========================================================================================================
-
-/*
-void popolScene::monsterMoveMent()
-{
-	
-}
-
-void popolScene::monsterInit()
-{
-	
-
-
-	
-	
-
-
-
-}
-*/

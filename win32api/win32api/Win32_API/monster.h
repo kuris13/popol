@@ -9,6 +9,8 @@ public:
 	image Img;
 
 	RECT *playerRect;
+
+
 	//몬스터의 초기 좌표
 	int x, y;
 
@@ -22,7 +24,9 @@ public:
 	int idleState = 0;
 	int runState = 0;
 	int attackState = 0;
-	int fallState = 0;
+	int hitState = 0;
+
+
 
 	int ste = 0;
 	//몬스터의 랜딩 상태 
@@ -38,9 +42,8 @@ public:
 	//몬스터의 상태
 	bool attackOn = false;
 	bool jumpOn = false;
-	bool rollOn = false;
+	bool hitOn = false;
 	bool floorOn = false;
-	bool fallOn = false;
 	bool floorCheck = false;
 	bool steMode = false;
 	bool coll = false;
