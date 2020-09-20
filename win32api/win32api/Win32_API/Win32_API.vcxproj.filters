@@ -251,5 +251,8 @@
     <ClInclude Include="collisionFucntion.h">
       <Filter>API_FrameWork\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="popolItem.h">
+      <Filter>API_FrameWork\SampleScene\popol</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

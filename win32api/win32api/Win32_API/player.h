@@ -1,5 +1,6 @@
 #pragma once
 #include "singletonBase.h"
+#include "popolItem.h"
 class player : public singletonBase<player>
 {
 
@@ -12,11 +13,15 @@ public:
 	RECT rc;
 	RECT rc2;
 
+	vector<popolItem> invenVec;
+	vector<string> invenVec2;
+
+	int nowScene = 1;
 	int monstCount = 0;
 	bool isMonsterAttack[10] = { false };
 	RECT mRc[10];
 
-
+	int CAMERA = 0;
 	string backName;
 
 	int _x, _y;
@@ -32,6 +37,7 @@ public:
 	int rollState = 0;
 	int fallState = 0;
 	int hitState = 0;
+	int deathState = 0;
 
 	int cameraState = 0;
 
@@ -60,7 +66,7 @@ public:
 	bool hitOn = false;
 	bool floorCheck = false;
 	bool coll = false;
-
+	bool deathOn = false;
 	bool noHitMode = false;
 
 	int lifeCount = 0;

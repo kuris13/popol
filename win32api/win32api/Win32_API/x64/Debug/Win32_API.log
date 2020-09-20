@@ -1,3 +1,5 @@
 ﻿  popolScene.cpp
-c:\users\sga\desktop\05\win32api\win32api\win32_api\popolscene.cpp(77): warning C4244: '-=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Win32_API.vcxproj -> C:\Users\SGA\Desktop\05\win32api\win32api\x64\Debug\Win32_API.exe
+c:\users\kuris_window\desktop\popol\popol\win32api\win32api\win32_api\popolscene.cpp(133): warning C4244: '-=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kuris_window\desktop\popol\popol\win32api\win32api\win32_api\popolscene.cpp(144): warning C4244: '인수': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kuris_window\desktop\popol\popol\win32api\win32api\win32_api\popolscene.cpp(166): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Win32_API.vcxproj -> C:\Users\kuris_window\Desktop\popol\popol\win32api\win32api\x64\Debug\Win32_API.exe

@@ -43,8 +43,18 @@ void monster::monsterInit()
 
 void monster::monsterMoveMent()
 {
-	
-	cout << "몬스터의 위치 " << mRc.left + 30 << endl;
+
+	if (deathOn)
+	{
+		
+		monsterImg->setFrameX(deathState++ / 5);
+
+		if (deathState > 75)
+		{
+
+		}
+	}else if (!deathOn) {
+		//cout << "몬스터의 위치 " << mRc.left + 30 << endl;
 		if (!steMode && !attackOn)
 		{
 			//몬스터가 왼쪽
@@ -61,7 +71,7 @@ void monster::monsterMoveMent()
 				monsterImg->setFrameX(runState++ / 5);
 
 				ste += 1;
-				
+
 
 			}
 			else if ((playerRect->left + 30) - (mRc.left + 30) == 0)
@@ -69,7 +79,7 @@ void monster::monsterMoveMent()
 				//
 			}
 			//플레이어가 몬스터 왼쪽에 있음
-			else if ((playerRect->left + 30) - (mRc.left + 30) < 0) 
+			else if ((playerRect->left + 30) - (mRc.left + 30) < 0)
 			{
 				mRc.left -= 2;
 				mRc.right -= 2;
@@ -140,7 +150,7 @@ void monster::monsterMoveMent()
 			monsterImg->setFrameY(dy);
 		}
 
-		if (ste > 300 && !attackOn)
+		if (ste > 400 && !attackOn)
 		{
 			state = 0;
 			monsterImg = IMAGEMANAGER->findImage("skel_idle");
@@ -155,6 +165,13 @@ void monster::monsterMoveMent()
 			state = 0;
 			monsterImg = IMAGEMANAGER->findImage("skel_idle");
 			monsterImg->setFrameY(dy);
+			--monLife;
+			if (monLife == 0)
+			{
+				deathOn = true;
+				monsterImg = IMAGEMANAGER->findImage("skel_death");
+			}
+
 		}
 
 
@@ -239,7 +256,7 @@ void monster::monsterMoveMent()
 				}
 			}
 		}
-		
+
 
 		RECT tempRect;
 
@@ -253,9 +270,9 @@ void monster::monsterMoveMent()
 				state = 3;
 				hitOn = true;
 				monsterImg = IMAGEMANAGER->findImage("skel_hit");
-
+				
 			}
-			else if (IntersectRect(&tempRect, playerRect, &mRc) && !steMode &&!hitOn)
+			else if (IntersectRect(&tempRect, playerRect, &mRc) && !steMode && !hitOn)
 			{
 				//공격
 				state = 2;
@@ -265,9 +282,9 @@ void monster::monsterMoveMent()
 			}
 
 
-			
+
 		}
-		
+
 
 
 
@@ -310,7 +327,7 @@ void monster::monsterMoveMent()
 		bFrameLeft = mRc.left;
 		bFreameRight = mRc.right;
 		bHeight = mRc.bottom;
-
+	}
 }
 
 void monster::setLocation(int x, int y)

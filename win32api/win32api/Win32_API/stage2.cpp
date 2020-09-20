@@ -13,7 +13,8 @@ HRESULT stage2::init()
 	playerS->backName = "배경4_c";
 	playerS->playerInit();
 	
-
+	playerS->nowScene = 2;
+	playerS->rc = RectMake(-30, 100, 60, 60);
 	//==========================================
 	
 
@@ -28,6 +29,11 @@ void stage2::release()
 void stage2::update()
 {
 	playerS->playerMovement();
+	if (playerS->rc2.left < 0)
+	{
+		SCENEMANAGER->changeScene("포폴");
+	}
+	
 }
 
 void stage2::render()

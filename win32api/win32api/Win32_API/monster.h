@@ -25,9 +25,9 @@ public:
 	int runState = 0;
 	int attackState = 0;
 	int hitState = 0;
+	int deathState = 0;
 
-
-
+	int monLife =4;
 	int ste = 0;
 	//몬스터의 랜딩 상태 
 	int landing = 1;
@@ -47,7 +47,7 @@ public:
 	bool floorCheck = false;
 	bool steMode = false;
 	bool coll = false;
-
+	bool deathOn= false;
 
 	RECT mRc;
 

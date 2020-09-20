@@ -176,6 +176,7 @@
     <ClInclude Include="mainGame.h" />
     <ClInclude Include="monster.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="popolItem.h" />
     <ClInclude Include="popolScene.h" />
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="p_Scene.h" />
