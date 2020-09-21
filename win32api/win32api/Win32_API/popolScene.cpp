@@ -6,43 +6,9 @@
 
 HRESULT popolScene::init()
 {
-	//배경은 씬마다 추가해야함 
-	IMAGEMANAGER->addImage("뒷배경1", "Images/bakcground_day1.bmp", 1312, 768, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("뒷배경2", "Images/bakcground_day2.bmp", 1312, 768, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("뒷배경3", "Images/bakcground_day3.bmp", 1312, 768, true, RGB(255, 0, 255));
-
-	IMAGEMANAGER->addImage("배경3", "Images/first_p.bmp", 0,0,1312, 768, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("배경3_c", "Images/first_c.bmp",0,0, 1312, 768, true, RGB(255, 0, 255));
-
-	
-	IMAGEMANAGER->addImage("체력", "Images/life.bmp", 27*2, 35*2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("itemBack", "Images/invenBack.bmp", 64, 64, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("food", "Images/food.bmp", 56, 56, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("포도", "Images/포도.bmp", 56, 56, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("물고기", "Images/물고기.bmp", 56, 56, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("t6", "Images/t6.bmp", 100, 100, true, RGB(255, 0, 255));
-
-
-
-	IMAGEMANAGER->addImage("화살표", "Images/arrow.bmp", 40 , 40, true, RGB(255, 0, 255));
-
-
-	//필드 아이템 백터가 있어서 그 벡터를 받아오면 씬에서는 뿌려주는 걸로 해야함
-	//필드 아이템 초기화
-	//위치
-	stageItem[0] = RectMake(870, 300,100,100);
-	
-	stageItem[1] = RectMake(800, 500, 100, 100);
-	
-	stageItem[2] = RectMake(615, 520, 100, 100);
-	//물고기
-	stageItem[3] = RectMake(380, 365, 100, 100);
-
 
 	playerS->backName = "배경3_c";
 
-
-	//playerS->playerInit();
 
 	if (playerS->nowScene == 2)
 	{
@@ -54,10 +20,9 @@ HRESULT popolScene::init()
 
 	}
 
-	
 	player2 = playerS;
 	
-
+	//==========================================
 	//==========================================
 	for (int i = 0; i < monsterCount; i++)
 	{
@@ -67,8 +32,12 @@ HRESULT popolScene::init()
 		m[i]->playerRect = &player2->rc2;
 
 	}
+
 	m[0]->setLocation(600, 500);
-	m[1]->setLocation(1000, 400);
+	m[1]->setLocation(1000,500);
+
+	coinImg = IMAGEMANAGER->findImage("coin");
+	coinImg->setFrameY(0);
 	return S_OK;
 }
 
@@ -78,6 +47,8 @@ void popolScene::release()
 
 void popolScene::update()
 {
+
+	//플레이어와 몬스터의 충돌 처리
 	//플레이어에게 몬스터의 정보 입력 -> 몬스터와의 충돌 처리에 사용
 	player2->monstCount = monsterCount;
 
@@ -94,50 +65,91 @@ void popolScene::update()
 			player2->isMonsterAttack[i] = false;
 		}
 	}
-
+	//====================================================
+	//필드 드랍 아이템 획득 -> 퀵슬롯으로 이동
 	RECT temp5;
-	for (int i = 0; i < fieldVec.size(); i++)
+	for (int i = 0; i < STAGEMANAGER->stageOne->stageItemVec.size(); i++)
 	{
-		if (IntersectRect(&temp5, &playerS->rc2, &stageItem[i]))
+		if (IntersectRect(&temp5, &playerS->rc2, &STAGEMANAGER->stageOne->stageItem[i]))
 		{
-			stageItem[i].left = -100;
-			stageItem[i].right = -100;
+			//처리된 아이템은 화면밖으로 이동
+			STAGEMANAGER->stageOne->stageItem[i].left = -100;
+			STAGEMANAGER->stageOne->stageItem[i].right = -100;
 
-			player2->invenVec2.push_back(fieldVec.at(i));
-			//playerS->getItem();
+			//플레이어의 인벤토리에 아이템 푸시
+			player2->invenVec2.push_back(STAGEMANAGER->stageOne->stageItemVec.at(i));
 		}
 
+	}
+	RECT temp6;
+	for (int i = 0; i < STAGEMANAGER->stageOne->coin; i++)
+	{
+		if (IntersectRect(&temp5, &playerS->rc2, &STAGEMANAGER->stageOne->coinRect[i]))
+		{
+			//처리된 아이템은 화면밖으로 이동
+			//STAGEMANAGER->stageOne->coinRect[i].left = -100;
+			//STAGEMANAGER->stageOne->coinRect[i].right = -100;
+
+			++score;
+			
+		}
 
 	}
-	
-	
 
+
+	
+	//다음 맵으로 이동
 	player2->playerMovement();
 	if (player2->rc2.right > WINSIZE_X)
 	{
 		SCENEMANAGER->changeScene("포폴2");
-	}
 
+	}
+	//=========================================
 
 	for (int i = 0; i < monsterCount; i++)
 	{
 		m[i]->monsterMoveMent();
 	}
-	
 
+
+	//==============================================
+	//방향 화살표
 	_alpha -= 3.0f;
 
 	if (_alpha <= 0)
 	{
 		_alpha = 255;
 	}
+	//===============================================
 
-	cout << "현재 플레이어가 가지고 있는 아이템";
+	//coin움직임
+	coinImg->setFrameX(coinState++ / 5);
+
+	if (coinState > 30) coinState = 0;
+
+
+
+
+
+
+
+
+
+
+
+/*
+	cout << "현재 플레이어가 가지고 있는 아이템 : ";
 	for (int i = 0; i < playerS->invenVec2.size(); i++)
 	{
 		cout << playerS->invenVec2.at(i);
 	}
-	cout << endl;
+	cout << endl;*/
+
+
+
+
+
 
 }
 
@@ -172,13 +184,47 @@ void popolScene::render()
 		
 	}
 
-
-	for (int i = 0; i < fieldVec.size(); i++)
+	for (int i = 0; i < STAGEMANAGER->stageOne->stageItemVec.size(); i++)
 	{
-		
-			IMAGEMANAGER->render(fieldVec.at(i), getMemDC(), stageItem[i].left, stageItem[i].top);
+			IMAGEMANAGER->render(STAGEMANAGER->stageOne->stageItemVec.at(i), getMemDC(), STAGEMANAGER->stageOne->stageItem[i].left, STAGEMANAGER->stageOne->stageItem[i].top);
+	}
+
+
+	IMAGEMANAGER->frameRender("coin", getMemDC(), STAGEMANAGER->stageOne->coinRect[0].left, STAGEMANAGER->stageOne->coinRect[0].top);
+	
+
+	for (int i = 0; i < score; i++)
+	{
+		if (i > 15)
+		{
+			break;
+		}
+		IMAGEMANAGER->render("1coin", getMemDC(), 280 + i * 10, 50);
 		
 	}
+
+	for (int i = 15; i < score; i++)
+	{
+		if (i > 30)
+		{
+			break;
+		}
+		IMAGEMANAGER->render("1coin", getMemDC(), 280 + (i-15) * 10, 65);
+
+	}
+
+	for (int i = 30; i < score; i++)
+	{
+		if (i > 45)
+		{
+			break;
+		}
+		IMAGEMANAGER->render("1coin", getMemDC(), 280 + (i-30) * 10, 80);
+
+	}
+	
+
+
 	/*
 
 	//RectangleMake(getMemDC(), rc);

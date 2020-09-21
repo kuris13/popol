@@ -260,5 +260,8 @@
     <ClInclude Include="stageManager.h">
       <Filter>API_FrameWork\SampleScene\popol</Filter>
     </ClInclude>
+    <ClInclude Include="fInfo.h">
+      <Filter>API_FrameWork\SampleScene\popol</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

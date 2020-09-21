@@ -1,5 +1,6 @@
 #pragma once
 #include "singletonBase.h"
+#include "fInfo.h"
 class stageManager :public singletonBase<stageManager>
 {
 	/*
@@ -10,24 +11,16 @@ class stageManager :public singletonBase<stageManager>
 		각 스테이지의 몬스터 정보
 
 	*/
+public:
+	fInfo *stageOne;
 
+	fInfo *stageTwo;
 
+	fInfo *stageThr;
+
+public:
+	void stageOneInit();
+	void stageTwoInit();
+	void stageThrInit();
 };
 
-class fItem
-{
-	//아이템의 위치 정보
-	RECT stageItem[10];
-	//아이템들이 담겨 있는 벡터
-	vector<string> stageItemVec;
-
-
-
-
-	//몬스터가 살았는지 죽었는지 정보
-	bool monsterAlive[10];
-	//몬스터의 위치 x, y값으로 setLocation함수 이용해서 설정 가능
-	POINT mLocation;
-	//몬스터가 몇 마리인지
-	int monsterCount;
-};

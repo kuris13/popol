@@ -13,17 +13,16 @@ private:
 	RECT itemBack[10];
 	
 	monster *m[2];
-	
-	//필드 아이템 이름 
-	RECT stageItem[10];
-	//필드 아이템 종류
-	vector<string> fieldVec{ "체력","food","포도","물고기" };
-
-	
+	image* coinImg;
 	vector<monster> monVec;
 	int monsterCount = 2;
 
+	int score = 0;
 
+	int renderScoreHelpX = 0;
+	int renderScoreHelpY = 0;
+
+	int coinState=0;
 	int _alpha = 255;
 	char str[128];
 
