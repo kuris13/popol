@@ -1,6 +1,6 @@
 #include "setDefine.h"
 #include "popolScene.h"
-
+#include  <cassert>
 
 
 
@@ -18,6 +18,8 @@ HRESULT popolScene::init()
 	IMAGEMANAGER->addImage("체력", "Images/life.bmp", 27*2, 35*2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("itemBack", "Images/invenBack.bmp", 64, 64, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("food", "Images/food.bmp", 56, 56, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("포도", "Images/포도.bmp", 56, 56, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("물고기", "Images/물고기.bmp", 56, 56, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("t6", "Images/t6.bmp", 100, 100, true, RGB(255, 0, 255));
 
 
@@ -25,30 +27,22 @@ HRESULT popolScene::init()
 	IMAGEMANAGER->addImage("화살표", "Images/arrow.bmp", 40 , 40, true, RGB(255, 0, 255));
 
 
-	cameraPoint1 = RectMake(1250,0,100,WINSIZE_Y);
-
-
 	//필드 아이템 백터가 있어서 그 벡터를 받아오면 씬에서는 뿌려주는 걸로 해야함
 	//필드 아이템 초기화
 	//위치
-	stageItem[0] = RectMake(300, 100,100,100);
-	stageItem[1] = RectMake(400, 100, 100, 100);
-	stageItem[2] = RectMake(500, 100, 100, 100);
-	stageItem[3] = RectMake(600, 100, 100, 100);
-
-
-
+	stageItem[0] = RectMake(870, 300,100,100);
 	
+	stageItem[1] = RectMake(800, 500, 100, 100);
+	
+	stageItem[2] = RectMake(615, 520, 100, 100);
+	//물고기
+	stageItem[3] = RectMake(380, 365, 100, 100);
 
 
-
-
-	//============================================
-
-
-	//==========================================
 	playerS->backName = "배경3_c";
-	playerS->playerInit();
+
+
+	//playerS->playerInit();
 
 	if (playerS->nowScene == 2)
 	{
@@ -110,6 +104,7 @@ void popolScene::update()
 			stageItem[i].right = -100;
 
 			player2->invenVec2.push_back(fieldVec.at(i));
+			//playerS->getItem();
 		}
 
 
@@ -136,13 +131,6 @@ void popolScene::update()
 	{
 		_alpha = 255;
 	}
-	//CAMERA.x += -player2->CAMERA;
-	//IMAGEMANAGER->findImage("배경3_c")->setX(CAMERA.x);
-	//IMAGEMANAGER->findImage("배경3_c")->setY(0+CAMERA.y);
-	
-
-	IMAGEMANAGER->findImage("배경3")->setX(CAMERA.x);
-	//IMAGEMANAGER->findImage("배경3")->setY(0+CAMERA.y);
 
 	cout << "현재 플레이어가 가지고 있는 아이템";
 	for (int i = 0; i < playerS->invenVec2.size(); i++)
@@ -161,28 +149,35 @@ void popolScene::render()
 	IMAGEMANAGER->render("뒷배경3", getMemDC());
 
 
-	//IMAGEMANAGER->render("배경3_c", getMemDC(), IMAGEMANAGER->findImage("배경3_c")->getX(), IMAGEMANAGER->findImage("배경3_c")->getY());
-
 	IMAGEMANAGER->render("배경3", getMemDC(), IMAGEMANAGER->findImage("배경3")->getX(), IMAGEMANAGER->findImage("배경3")->getY());
 
 	for (int i = 0; i < player2->lifeCount; i++)
 	{
 		IMAGEMANAGER->render("체력", getMemDC(),30+i*55,50);
 	}
-	for (int i = 0; i < 5; i++)
+
+	for (int i = 0; i < 4; i++)
 	{
-		
+
 		IMAGEMANAGER->render("itemBack", getMemDC(), 700 + i * 62, 50);
-		IMAGEMANAGER->render("food", getMemDC(), 700+4 + i * 62, 54);
+	}
+		
+	for (int i = 0; i < playerS->invenVec2.size(); i++)
+	{
+		if (i == 4)
+		{
+			break;
+		}
+		IMAGEMANAGER->render(playerS->invenVec2.at(i), getMemDC(), 700+4 + i * 62, 54);
+		
 	}
 
 
 	for (int i = 0; i < fieldVec.size(); i++)
 	{
-		if (fieldVec.at(i) == "물고기" || fieldVec.at(i) == "음식")
-		{
-			IMAGEMANAGER->render("t6", getMemDC(), stageItem[i].left, stageItem[i].top);
-		}
+		
+			IMAGEMANAGER->render(fieldVec.at(i), getMemDC(), stageItem[i].left, stageItem[i].top);
+		
 	}
 	/*
 
@@ -291,8 +286,8 @@ void popolScene::render()
 	IMAGEMANAGER->alphaRender("화살표", getMemDC(), WINSIZE_X - 75, WINSIZE_Y / 2 - 40, _alpha);
 
 
-	//sprintf(str, "마우스 좌표 x : %d , y : %d  m[0]의 ste : %d", _ptMouse.x, _ptMouse.y, m[0]->ste);
-	//TextOut(getMemDC(), 10, 10, str, strlen(str));
+	sprintf(str, "마우스 좌표 x : %d , y : %d ", _ptMouse.x, _ptMouse.y);
+	TextOut(getMemDC(), 10, 10, str, strlen(str));
 	
 	
 }

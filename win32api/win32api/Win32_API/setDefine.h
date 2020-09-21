@@ -31,6 +31,7 @@ using namespace std;
 #include "soundManager.h"
 #include "GeometricUtility.h"
 #include "collisionFucntion.h"
+#include "stageManager.h"
 using namespace G_UTIL;
 /* ===================================
 ½Ì±ÛÅæ
@@ -41,6 +42,7 @@ using namespace G_UTIL;
 #define SCENEMANAGER sceneManager::getSingleton()
 #define SOUNDMANAGER soundManager::getSingleton()
 #define playerS player::getSingleton()
+#define STAGEMANAGER stageManager::getSingleton()
 /* ===================================
 		À©µµ¿ì define °ü·Ã
 =================================== */

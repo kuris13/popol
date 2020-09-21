@@ -20,7 +20,7 @@ HRESULT gameNode::init(bool managerInit)
 		IMAGEMANAGER->init();
 		SCENEMANAGER->init();
 		SOUNDMANAGER->init();
-
+		
 	}
 
 	return S_OK;

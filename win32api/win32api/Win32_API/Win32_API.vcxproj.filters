@@ -156,6 +156,9 @@
     <ClCompile Include="collisionFucntion.cpp">
       <Filter>API_FrameWork\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="stageManager.cpp">
+      <Filter>API_FrameWork\SampleScene\popol</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonMacroFunction.h">
@@ -252,6 +255,9 @@
       <Filter>API_FrameWork\Utility</Filter>
     </ClInclude>
     <ClInclude Include="popolItem.h">
+      <Filter>API_FrameWork\SampleScene\popol</Filter>
+    </ClInclude>
+    <ClInclude Include="stageManager.h">
       <Filter>API_FrameWork\SampleScene\popol</Filter>
     </ClInclude>
   </ItemGroup>

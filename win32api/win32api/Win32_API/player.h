@@ -74,5 +74,6 @@ public:
 public:
 	void playerMovement();
 	void playerInit();
+	void getItem();
 };
 

@@ -481,3 +481,8 @@ void player::playerInit()
 
 }
 
+void player::getItem()
+{
+
+}
+

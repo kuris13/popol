@@ -41,7 +41,7 @@ HRESULT mainGame::init()
 
 	SCENEMANAGER->addScene("Æ÷Æú2", new stage2);
 
-
+	playerS->playerInit();
 
 
 
