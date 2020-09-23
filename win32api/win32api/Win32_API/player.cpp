@@ -41,7 +41,7 @@ void player::playerMovement()
 
 						playerImg = IMAGEMANAGER->findImage("p_run");
 						playerImg->setFrameY(dy);
-						playerImg->setFrameX(runState++ / 5);
+						playerImg->setFrameX(runState++);
 					}
 
 				}
@@ -69,7 +69,7 @@ void player::playerMovement()
 				if (!hitOn)
 				{
 					//공격
-					if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
+					if (KEYMANAGER->isOnceKeyDown(0x5A))
 					{
 						state = 2;
 						attackOn = true;
@@ -78,7 +78,7 @@ void player::playerMovement()
 
 
 
-					if (KEYMANAGER->isOnceKeyDown(VK_CONTROL))
+					if (KEYMANAGER->isOnceKeyDown(0x43))
 					{
 						state = 4;
 						playerImg = IMAGEMANAGER->findImage("p_roll");
@@ -89,7 +89,7 @@ void player::playerMovement()
 
 
 				//점프
-				if (KEYMANAGER->isOnceKeyDown(VK_SHIFT))
+				if (KEYMANAGER->isOnceKeyDown(0x58))
 				{
 					state = 3;
 					playerImg = IMAGEMANAGER->findImage("p_jump");
@@ -104,6 +104,10 @@ void player::playerMovement()
 
 		}
 
+		if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
+		{
+			useItem();
+		}
 
 		//대기 상태라면
 		if (state == 0)
@@ -136,7 +140,7 @@ void player::playerMovement()
 		else if (rollOn)
 		{
 			playerImg->setFrameY(dy);
-			playerImg->setFrameX(rollState++ / 5);
+			playerImg->setFrameX(rollState++);
 			if (dy == 0)
 			{
 				rc.left += 5;
@@ -177,7 +181,7 @@ void player::playerMovement()
 			idleState = 0;
 		}
 
-		if (runState > 40)
+		if (runState > 8)
 		{
 			runState = 0;
 		}
@@ -191,7 +195,7 @@ void player::playerMovement()
 			playerImg->setFrameY(dy);
 		}
 
-		if (jumpGa >= 250)
+		if (jumpGa >= 200)
 		{
 			jumpState = 0;
 			jumpGa = 0;
@@ -201,7 +205,7 @@ void player::playerMovement()
 			playerImg->setFrameY(dy);
 
 		}
-		if (rollState > 40)
+		if (rollState > 8)
 		{
 			rollState = 0;
 			rollOn = false;
@@ -230,15 +234,6 @@ void player::playerMovement()
 			}
 
 		}
-
-		//cout << "===============================================" << endl;
-		//cout << "before  monster collision check             " << endl;
-		//cout << "monsterCount : " << monstCount << endl;
-		//cout << "frist monster's rect + 30  : " << mRc[0].left + 30 << endl;
-		//cout << "frist monster's isAttack   : " << isMonsterAttack[0] << endl;
-		//cout << "second monster's rect + 30  : " << mRc[1].left + 30 << endl;
-		//cout << "second monster's isAttack   : " << isMonsterAttack[1] << endl;
-		//cout << "===============================================" << endl;
 
 
 		RECT tempRect;
@@ -463,8 +458,8 @@ void player::playerInit()
 
 	playerImg = IMAGEMANAGER->findImage("p_idle");
 
-	_x = WINSIZE_X / 2;
-	_y = WINSIZE_Y / 2;
+	_x =0;
+	_y =0;
 
 	//플레이어 이미지
 	rc = RectMakeCenter(_x, _y, 60, 60);
@@ -481,8 +476,15 @@ void player::playerInit()
 
 }
 
-void player::getItem()
+void player::useItem()
 {
 
+	invenVec2.erase(invenVec2.begin());
+
+
+
+
+
 }
+
 

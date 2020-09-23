@@ -9,7 +9,7 @@ public:
 	//아이템들이 담겨 있는 벡터
 	vector<string> stageItemVec;
 
-	int coin = 1;
+	int coin = 0;
 	RECT coinRect[10];
 
 

@@ -24,7 +24,7 @@ void stageManager::stageOneInit()
 	//¹°°í±â
 	stageOne->stageItem[3] = RectMake(380, 365, 100, 100);
 
-	
+	stageOne->coin = 1;
 	stageOne->coinRect[0] = RectMake(700, 350, 50,50);
 
 

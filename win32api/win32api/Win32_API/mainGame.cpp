@@ -14,6 +14,7 @@ HRESULT mainGame::init()
 	SCENEMANAGER->addScene("포폴2", new stage2);
 
 	playerS->playerInit();
+
 	STAGEMANAGER->stageOneInit();
 
 
@@ -34,7 +35,7 @@ HRESULT mainGame::init()
 	IMAGEMANAGER->addImage("배경3_c", "Images/first_c.bmp", 0, 0, 1312, 768, true, RGB(255, 0, 255));
 
 
-	IMAGEMANAGER->addImage("체력", "Images/life.bmp", 27 * 2, 35 * 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("체력", "Images/life.bmp", 56,56, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("itemBack", "Images/invenBack.bmp", 64, 64, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("food", "Images/food.bmp", 56, 56, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("포도", "Images/포도.bmp", 56, 56, true, RGB(255, 0, 255));

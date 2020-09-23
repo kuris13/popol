@@ -49,8 +49,8 @@ using namespace G_UTIL;
 #define WIN_NAME (LPTSTR)(TEXT("Window API"))
 #define WINSTART_X 400
 #define WINSTART_Y 100
-#define WINSIZE_X 1280
-#define WINSIZE_Y 720
+#define WINSIZE_X 1312
+#define WINSIZE_Y 768
 #define WIN_STYLE CS_HREDRAW | CS_VREDRAW
 
 /* ===================================

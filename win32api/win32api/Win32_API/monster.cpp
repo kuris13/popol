@@ -4,20 +4,15 @@
 void monster::monsterInit()
 {
 
-	IMAGEMANAGER->addFrameImage("skel_idle", "Images/skel/idle.bmp",
-		WINSIZE_X / 2, WINSIZE_Y / 2, 1144, 128, 11, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("skel_idle", "Images/skel/idle.bmp", 1144, 128, 11, 2, true, RGB(255, 0, 255));
 
-	IMAGEMANAGER->addFrameImage("skel_attack", "Images/skel/attack.bmp",
-		WINSIZE_X / 2, WINSIZE_Y / 2, 1872, 148, 18, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("skel_attack", "Images/skel/attack.bmp", 1872, 148, 18, 2, true, RGB(255, 0, 255));
 
-	IMAGEMANAGER->addFrameImage("skel_death", "Images/skel/death.bmp",
-		WINSIZE_X / 2, WINSIZE_Y / 2, 1560, 128, 15, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("skel_death", "Images/skel/death.bmp", 1560, 128, 15, 2, true, RGB(255, 0, 255));
 
-	IMAGEMANAGER->addFrameImage("skel_walk", "Images/skel/walk.bmp",
-		WINSIZE_X / 2, WINSIZE_Y / 2, 1352, 132, 13, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("skel_walk", "Images/skel/walk.bmp", 1352, 128, 13, 2, true, RGB(255, 0, 255));
 
-	IMAGEMANAGER->addFrameImage("skel_hit", "Images/skel/hit.bmp",
-		WINSIZE_X / 2, WINSIZE_Y / 2, 832, 128, 8, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("skel_hit", "Images/skel/hit.bmp", 832, 128, 8, 2, true, RGB(255, 0, 255));
 
 	
 	for (int i = 0; i < 2; i++)
@@ -58,7 +53,7 @@ void monster::monsterMoveMent()
 		if (!steMode && !attackOn)
 		{
 			//몬스터가 왼쪽
-			if ((playerRect->left + 30) - (mRc.left + 30) > 0)
+			if ((playerRect->left + 30) - (mRc.left + 30) > 2)
 			{
 				mRc.left += 2;
 				mRc.right += 2;
@@ -74,12 +69,9 @@ void monster::monsterMoveMent()
 
 
 			}
-			else if ((playerRect->left + 30) - (mRc.left + 30) == 0)
-			{
-				//
-			}
+			
 			//플레이어가 몬스터 왼쪽에 있음
-			else if ((playerRect->left + 30) - (mRc.left + 30) < 0)
+			else if ((playerRect->left + 30) - (mRc.left + 30) < 2)
 			{
 				mRc.left -= 2;
 				mRc.right -= 2;
@@ -92,6 +84,10 @@ void monster::monsterMoveMent()
 				monsterImg->setFrameX(runState++ / 5);
 				ste += 1;
 
+			}
+			else
+			{
+				//
 			}
 
 		}

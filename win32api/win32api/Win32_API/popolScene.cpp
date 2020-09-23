@@ -54,8 +54,11 @@ void popolScene::update()
 
 	for (int i = 0; i < monsterCount; i++)
 	{
-		player2->mRc[i] = m[i]->mRc;
+		
 
+
+		player2->mRc[i] = m[i]->mRc;
+		
 		if (m[i]->state == 2)
 		{
 			player2->isMonsterAttack[i] = true;
@@ -65,6 +68,7 @@ void popolScene::update()
 			player2->isMonsterAttack[i] = false;
 		}
 	}
+
 	//====================================================
 	//필드 드랍 아이템 획득 -> 퀵슬롯으로 이동
 	RECT temp5;
@@ -78,18 +82,19 @@ void popolScene::update()
 
 			//플레이어의 인벤토리에 아이템 푸시
 			player2->invenVec2.push_back(STAGEMANAGER->stageOne->stageItemVec.at(i));
+			cout << "x";
 		}
 
 	}
 	RECT temp6;
 	for (int i = 0; i < STAGEMANAGER->stageOne->coin; i++)
 	{
-		if (IntersectRect(&temp5, &playerS->rc2, &STAGEMANAGER->stageOne->coinRect[i]))
+		if (IntersectRect(&temp6, &playerS->rc2, &STAGEMANAGER->stageOne->coinRect[i]))
 		{
 			//처리된 아이템은 화면밖으로 이동
 			//STAGEMANAGER->stageOne->coinRect[i].left = -100;
 			//STAGEMANAGER->stageOne->coinRect[i].right = -100;
-
+			cout << "z";
 			++score;
 			
 		}
@@ -149,7 +154,7 @@ void popolScene::update()
 
 
 
-
+	cout << "a a" <<endl;
 
 }
 
@@ -183,7 +188,7 @@ void popolScene::render()
 		IMAGEMANAGER->render(playerS->invenVec2.at(i), getMemDC(), 700+4 + i * 62, 54);
 		
 	}
-
+	
 	for (int i = 0; i < STAGEMANAGER->stageOne->stageItemVec.size(); i++)
 	{
 			IMAGEMANAGER->render(STAGEMANAGER->stageOne->stageItemVec.at(i), getMemDC(), STAGEMANAGER->stageOne->stageItem[i].left, STAGEMANAGER->stageOne->stageItem[i].top);
@@ -224,12 +229,12 @@ void popolScene::render()
 	}
 	
 
-
+	RectangleMake(getMemDC(), m[0]->mRc);
 	/*
 
 	//RectangleMake(getMemDC(), rc);
 	RectangleMake(getMemDC(),playerS->rc2);
-	//RectangleMake(getMemDC(), m[0].mRc);
+	
 
 	if (player2.attackOn)
 	{
@@ -286,33 +291,33 @@ void popolScene::render()
 		{
 			m[i]->monsterImg = IMAGEMANAGER->findImage("skel_death");
 			m[i]->monsterImg->setFrameX(m[i]->deathState/5);
-			IMAGEMANAGER->frameRender("skel_death", getMemDC(), m[i]->mRc.left, m[i]->mRc.top);
+			IMAGEMANAGER->frameRender("skel_death", getMemDC(), m[i]->mRc.left-24, m[i]->mRc.top);
 		}else if (m[i]->state == 0)
 		{
 			m[i]->monsterImg = IMAGEMANAGER->findImage("skel_idle");
 			m[i]->monsterImg->setFrameY(m[i]->dy);
-			IMAGEMANAGER->frameRender("skel_idle", getMemDC(), m[i]->mRc.left, m[i]->mRc.top);
+			IMAGEMANAGER->frameRender("skel_idle", getMemDC(), m[i]->mRc.left-24, m[i]->mRc.top);
 
 		}
 		else if (m[i]->state == 1)
 		{
 			m[i]->monsterImg = IMAGEMANAGER->findImage("skel_walk");
 			m[i]->monsterImg->setFrameY(m[i]->dy);
-			IMAGEMANAGER->frameRender("skel_walk", getMemDC(), m[i]->mRc.left, m[i]->mRc.top);
+			IMAGEMANAGER->frameRender("skel_walk", getMemDC(), m[i]->mRc.left-24, m[i]->mRc.top);
 
 		}
 		else if (m[i]->state == 2)
 		{
 			m[i]->monsterImg = IMAGEMANAGER->findImage("skel_attack");
 			m[i]->monsterImg->setFrameY(m[i]->dy);
-			IMAGEMANAGER->frameRender("skel_attack", getMemDC(), m[i]->mRc.left, m[i]->mRc.top);
+			IMAGEMANAGER->frameRender("skel_attack", getMemDC(), m[i]->mRc.left-24, m[i]->mRc.top-10);
 
 		}
 		else if (m[i]->state == 3)
 		{
 			m[i]->monsterImg = IMAGEMANAGER->findImage("skel_hit");
 			m[i]->monsterImg->setFrameY(m[i]->dy);
-			IMAGEMANAGER->frameRender("skel_hit", getMemDC(), m[i]->mRc.left, m[i]->mRc.top);
+			IMAGEMANAGER->frameRender("skel_hit", getMemDC(), m[i]->mRc.left-24, m[i]->mRc.top);
 		}
  
 	}
@@ -329,7 +334,7 @@ void popolScene::render()
 
 	//RectangleMake(getMemDC(), cameraPoint1);
 
-	IMAGEMANAGER->alphaRender("화살표", getMemDC(), WINSIZE_X - 75, WINSIZE_Y / 2 - 40, _alpha);
+	//IMAGEMANAGER->alphaRender("화살표", getMemDC(), WINSIZE_X - 75, WINSIZE_Y / 2 - 40, _alpha);
 
 
 	sprintf(str, "마우스 좌표 x : %d , y : %d ", _ptMouse.x, _ptMouse.y);
