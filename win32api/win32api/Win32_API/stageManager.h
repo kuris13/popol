@@ -18,6 +18,8 @@ public:
 
 	fInfo *stageThr;
 
+	vector<string> useItemVec;
+
 public:
 	void stageOneInit();
 	void stageTwoInit();

@@ -13,7 +13,7 @@ public:
 	RECT rc;
 	RECT rc2;
 
-	vector<popolItem> invenVec;
+	vector<string> haveitem;
 	vector<string> invenVec2;
 
 	int nowScene = 1;
@@ -52,9 +52,12 @@ public:
 	int bFreameRight = 0;
 
 	int jumpGa = 0;
+	int maxJump = 150;
 	int jumpSpeed = 20;
 	int fallGa = 0;
 	int noHitGa = 0;
+	int runSpeed = 5;
+	int rollSpeed =5;
 
 	int dy = 0;
 	char str[128];

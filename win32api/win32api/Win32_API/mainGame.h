@@ -21,7 +21,9 @@ class mainGame : public gameNode
 {
 private:
 
-
+	int A = 0;
+	int loadingIMG=0;
+	bool loadingOn = false;
 public:
 	HRESULT init();
 	void release();

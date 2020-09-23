@@ -92,8 +92,8 @@ void popolScene::update()
 		if (IntersectRect(&temp6, &playerS->rc2, &STAGEMANAGER->stageOne->coinRect[i]))
 		{
 			//처리된 아이템은 화면밖으로 이동
-			//STAGEMANAGER->stageOne->coinRect[i].left = -100;
-			//STAGEMANAGER->stageOne->coinRect[i].right = -100;
+			STAGEMANAGER->stageOne->coinRect[i].left = -100;
+			STAGEMANAGER->stageOne->coinRect[i].right = -100;
 			cout << "z";
 			++score;
 			
@@ -135,26 +135,6 @@ void popolScene::update()
 
 
 
-
-
-
-
-
-
-
-
-/*
-	cout << "현재 플레이어가 가지고 있는 아이템 : ";
-	for (int i = 0; i < playerS->invenVec2.size(); i++)
-	{
-		cout << playerS->invenVec2.at(i);
-	}
-	cout << endl;*/
-
-
-
-
-	cout << "a a" <<endl;
 
 }
 
@@ -228,6 +208,14 @@ void popolScene::render()
 
 	}
 	
+
+	for (int i = 0; i < playerS->haveitem.size(); i++)
+	{
+			IMAGEMANAGER->render(playerS->haveitem.at(i), getMemDC(), 30 + i * 55, 150);
+		
+	}
+
+
 
 	RectangleMake(getMemDC(), m[0]->mRc);
 	/*

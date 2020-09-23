@@ -2,6 +2,31 @@
 #include "player.h"
 
 
+void player::playerInit()
+{
+
+
+
+
+	playerImg = IMAGEMANAGER->findImage("p_idle");
+
+	_x = 0;
+	_y = 0;
+
+	//플레이어 이미지
+	rc = RectMakeCenter(_x, _y, 60, 60);
+	//플레이어 충돌체
+	rc2 = RectMake(rc.left + 30, rc.top, 60, 60);
+
+	_probeY = rc2.top + playerImg->getHeight() / 2;
+	bHeight = rc2.bottom;
+
+	lifeCount = 4;
+	bFrameLeft = rc.left;
+
+
+
+}
 void player::playerMovement()
 {
 
@@ -31,9 +56,9 @@ void player::playerMovement()
 			{
 				if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
 				{
-					rc.left += 5;
-					rc.right += 5;
-					//CAMERA += 5;
+					rc.left += runSpeed;
+					rc.right += runSpeed;
+
 					dy = 0;
 					if (!jumpOn)
 					{
@@ -48,8 +73,8 @@ void player::playerMovement()
 
 				if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 				{
-					rc.left -= 5;
-					rc.right -= 5;
+					rc.left -= runSpeed;
+					rc.right -= runSpeed;
 					//CAMERA -= 5;
 					dy = 1;
 					if (!jumpOn)
@@ -140,16 +165,16 @@ void player::playerMovement()
 		else if (rollOn)
 		{
 			playerImg->setFrameY(dy);
-			playerImg->setFrameX(rollState++);
+			playerImg->setFrameX(rollState++/3);
 			if (dy == 0)
 			{
-				rc.left += 5;
-				rc.right += 5;
+				rc.left += rollSpeed;
+				rc.right += rollSpeed;
 			}
 			else if (dy == 1)
 			{
-				rc.left -= 5;
-				rc.right -= 5;
+				rc.left -= rollSpeed;
+				rc.right -= rollSpeed;
 			}
 		}
 		if (hitOn)
@@ -195,7 +220,7 @@ void player::playerMovement()
 			playerImg->setFrameY(dy);
 		}
 
-		if (jumpGa >= 200)
+		if (jumpGa >= maxJump)
 		{
 			jumpState = 0;
 			jumpGa = 0;
@@ -205,7 +230,7 @@ void player::playerMovement()
 			playerImg->setFrameY(dy);
 
 		}
-		if (rollState > 8)
+		if (rollState > 36)
 		{
 			rollState = 0;
 			rollOn = false;
@@ -428,58 +453,37 @@ void player::playerMovement()
 
 }
 
-void player::playerInit()
-{
-
-	IMAGEMANAGER->addFrameImage("p_idle", "Images/player/idle.bmp",
-		WINSIZE_X / 2, WINSIZE_Y / 2, 1800, 120, 15, 2, true, RGB(255, 0, 255));
-
-	IMAGEMANAGER->addFrameImage("p_run", "Images/player/run.bmp",
-		WINSIZE_X / 2, WINSIZE_Y / 2, 960, 120, 8, 2, true, RGB(255, 0, 255));
-
-	IMAGEMANAGER->addFrameImage("p_attack", "Images/player/attack.bmp",
-		WINSIZE_X / 2, WINSIZE_Y / 2, 2640, 130, 22, 2, true, RGB(255, 0, 255));
-
-	IMAGEMANAGER->addFrameImage("p_roll", "Images/player/roll.bmp",
-		WINSIZE_X / 2, WINSIZE_Y / 2, 1800, 120, 15, 2, true, RGB(255, 0, 255));
-
-	IMAGEMANAGER->addFrameImage("p_jump", "Images/player/jump.bmp",
-		WINSIZE_X / 2, WINSIZE_Y / 2, 600, 124, 5, 2, true, RGB(255, 0, 255));
-
-	IMAGEMANAGER->addFrameImage("p_fall", "Images/player/fall.bmp",
-		WINSIZE_X / 2, WINSIZE_Y / 2, 240, 124, 2, 2, true, RGB(255, 0, 255));
-
-	IMAGEMANAGER->addFrameImage("p_hit", "Images/player/landing.bmp",
-		WINSIZE_X / 2, WINSIZE_Y / 2, 240, 124, 2, 2, true, RGB(255, 0, 255));
-
-	IMAGEMANAGER->addFrameImage("p_death", "Images/player/death.bmp",
-		WINSIZE_X / 2, WINSIZE_Y / 2, 1800, 120, 15, 2, true, RGB(255, 0, 255));
-
-
-	playerImg = IMAGEMANAGER->findImage("p_idle");
-
-	_x =0;
-	_y =0;
-
-	//플레이어 이미지
-	rc = RectMakeCenter(_x, _y, 60, 60);
-	//플레이어 충돌체
-	rc2 = RectMake(rc.left + 30, rc.top, 60, 60);
-
-	_probeY = rc2.top + playerImg->getHeight() / 2;
-	bHeight = rc2.bottom;
-
-	lifeCount = 4;
-	bFrameLeft = rc.left;
-
-	
-
-}
 
 void player::useItem()
 {
 
-	invenVec2.erase(invenVec2.begin());
+	if (invenVec2.size() > 0)
+	{
+		if (invenVec2.at(0) == "물고기")
+		{
+			maxJump += 100;
+			haveitem.push_back("물고기");
+
+		}else if (invenVec2.at(0) == "포도")
+		{
+			runSpeed += 2;
+			haveitem.push_back("포도");
+		}
+		else if (invenVec2.at(0) == "food")
+		{
+			rollSpeed += 5;
+			haveitem.push_back("food");
+		}
+		else if (invenVec2.at(0) == "체력")
+		{
+
+			 if(lifeCount <4) lifeCount += 1;
+		}
+
+		invenVec2.erase(invenVec2.begin());
+	}
+
+	
 
 
 

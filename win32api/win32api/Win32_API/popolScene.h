@@ -26,6 +26,8 @@ private:
 	int _alpha = 255;
 	char str[128];
 
+
+
 public:
 
 	HRESULT init();
