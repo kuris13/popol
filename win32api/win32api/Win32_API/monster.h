@@ -11,6 +11,8 @@ public:
 	RECT *playerRect;
 
 
+	string backName = "";
+
 	//몬스터의 초기 좌표
 	int x, y;
 

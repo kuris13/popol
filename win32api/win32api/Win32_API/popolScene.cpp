@@ -30,6 +30,7 @@ HRESULT popolScene::init()
 
 		m[i]->monsterInit();
 		m[i]->playerRect = &player2->rc2;
+		m[i]->backName = "¹è°æ3_c";
 
 	}
 
@@ -95,7 +96,7 @@ void popolScene::update()
 			STAGEMANAGER->stageOne->coinRect[i].left = -100;
 			STAGEMANAGER->stageOne->coinRect[i].right = -100;
 			cout << "z";
-			++score;
+			++playerS->score;
 			
 		}
 
@@ -178,7 +179,7 @@ void popolScene::render()
 	IMAGEMANAGER->frameRender("coin", getMemDC(), STAGEMANAGER->stageOne->coinRect[0].left, STAGEMANAGER->stageOne->coinRect[0].top);
 	
 
-	for (int i = 0; i < score; i++)
+	for (int i = 0; i < playerS->score; i++)
 	{
 		if (i > 15)
 		{
@@ -188,7 +189,7 @@ void popolScene::render()
 		
 	}
 
-	for (int i = 15; i < score; i++)
+	for (int i = 15; i < playerS->score; i++)
 	{
 		if (i > 30)
 		{
@@ -198,7 +199,7 @@ void popolScene::render()
 
 	}
 
-	for (int i = 30; i < score; i++)
+	for (int i = 30; i < playerS->score; i++)
 	{
 		if (i > 45)
 		{

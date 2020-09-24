@@ -84,6 +84,8 @@ HRESULT mainGame::init()
 	playerS->playerInit();
 
 	STAGEMANAGER->stageOneInit();
+	STAGEMANAGER->stageTwoInit();
+	STAGEMANAGER->stageThrInit();
 
 
 	return S_OK;

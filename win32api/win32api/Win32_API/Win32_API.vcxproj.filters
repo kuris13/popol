@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="헤더 파일">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
@@ -22,14 +18,8 @@
     <Filter Include="API_FrameWork\Manager">
       <UniqueIdentifier>{0bc61dac-19ed-4993-90e7-2ed62e06c50d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="API_FrameWork\Utility">
-      <UniqueIdentifier>{3b26e7ac-65fc-43b1-990e-de2b942ed202}</UniqueIdentifier>
-    </Filter>
     <Filter Include="API_FrameWork\SampleScene">
       <UniqueIdentifier>{7cfe811d-9272-4666-a45c-2aafb6d4d6f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="API_FrameWork\TestProj">
-      <UniqueIdentifier>{c568a1a4-724d-487f-895d-700ad6ddd9f4}</UniqueIdentifier>
     </Filter>
     <Filter Include="API_FrameWork\SampleScene\popol">
       <UniqueIdentifier>{f13ff5d3-8ab6-4d87-a07b-8912c1d3bdfd}</UniqueIdentifier>
@@ -46,11 +36,21 @@
     <Filter Include="API_FrameWork\Base\Loading">
       <UniqueIdentifier>{0d816f76-159b-4c07-9565-ebb799374212}</UniqueIdentifier>
     </Filter>
-    <Filter Include="API_FrameWork\SampleScene\09.shooting">
-      <UniqueIdentifier>{5826e8d8-400b-4f31-8498-e3f60183d57e}</UniqueIdentifier>
+    <Filter Include="API_FrameWork\SampleScene\stage2">
+      <UniqueIdentifier>{ae68a6c9-657d-4628-9efa-ad25c71429de}</UniqueIdentifier>
     </Filter>
-    <Filter Include="API_FrameWork\SampleScene\10.udo">
-      <UniqueIdentifier>{0e27083e-9077-4c88-8b42-b7d5ff8c494c}</UniqueIdentifier>
+    <Filter Include="API_FrameWork\SampleScene\stage1">
+      <UniqueIdentifier>{72c84fe0-86c8-4607-ab73-56e4debe49e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API_FrameWork\SampleScene\stage3">
+      <UniqueIdentifier>{a6a5b05c-0d2c-440e-b12f-f622505d9e85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API_FrameWork\Utility">
+      <UniqueIdentifier>{3b26e7ac-65fc-43b1-990e-de2b942ed202}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -63,17 +63,11 @@
     <ClCompile Include="mainGame.cpp">
       <Filter>API_FrameWork\mainGame</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="image.cpp">
       <Filter>API_FrameWork\Base\Image</Filter>
     </ClCompile>
     <ClCompile Include="imageManager.cpp">
       <Filter>API_FrameWork\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="TestProj.cpp">
-      <Filter>API_FrameWork\TestProj</Filter>
     </ClCompile>
     <ClCompile Include="sceneManager.cpp">
       <Filter>API_FrameWork\Manager</Filter>
@@ -81,38 +75,38 @@
     <ClCompile Include="soundManager.cpp">
       <Filter>API_FrameWork\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="popolScene.cpp">
-      <Filter>API_FrameWork\SampleScene\popol</Filter>
-    </ClCompile>
     <ClCompile Include="progressBar.cpp">
       <Filter>API_FrameWork\Base\ProgressBar</Filter>
     </ClCompile>
     <ClCompile Include="loding.cpp">
       <Filter>API_FrameWork\Base\Loading</Filter>
     </ClCompile>
-    <ClCompile Include="Scene_ShootingBullet.cpp">
-      <Filter>API_FrameWork\SampleScene\09.shooting</Filter>
-    </ClCompile>
-    <ClCompile Include="udo_Scene.cpp">
-      <Filter>API_FrameWork\SampleScene\10.udo</Filter>
-    </ClCompile>
     <ClCompile Include="GeometricUtility.cpp">
       <Filter>API_FrameWork\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="stage2.cpp">
-      <Filter>API_FrameWork\SampleScene\popol</Filter>
-    </ClCompile>
     <ClCompile Include="player.cpp">
-      <Filter>API_FrameWork\SampleScene\popol</Filter>
-    </ClCompile>
-    <ClCompile Include="monster.cpp">
       <Filter>API_FrameWork\SampleScene\popol</Filter>
     </ClCompile>
     <ClCompile Include="collisionFucntion.cpp">
       <Filter>API_FrameWork\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="stageManager.cpp">
+    <ClCompile Include="popolScene.cpp">
+      <Filter>API_FrameWork\SampleScene\stage1</Filter>
+    </ClCompile>
+    <ClCompile Include="monster.cpp">
       <Filter>API_FrameWork\SampleScene\popol</Filter>
+    </ClCompile>
+    <ClCompile Include="stage2.cpp">
+      <Filter>API_FrameWork\SampleScene\stage2</Filter>
+    </ClCompile>
+    <ClCompile Include="stageManager.cpp">
+      <Filter>API_FrameWork\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="stage3.cpp">
+      <Filter>API_FrameWork\SampleScene\stage3</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -143,17 +137,11 @@
     <ClInclude Include="imageManager.h">
       <Filter>API_FrameWork\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="TestProj.h">
-      <Filter>API_FrameWork\TestProj</Filter>
-    </ClInclude>
     <ClInclude Include="sceneManager.h">
       <Filter>API_FrameWork\Manager</Filter>
     </ClInclude>
     <ClInclude Include="soundManager.h">
       <Filter>API_FrameWork\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="popolScene.h">
-      <Filter>API_FrameWork\SampleScene\popol</Filter>
     </ClInclude>
     <ClInclude Include="progressBar.h">
       <Filter>API_FrameWork\Base\ProgressBar</Filter>
@@ -161,22 +149,10 @@
     <ClInclude Include="loding.h">
       <Filter>API_FrameWork\Base\Loading</Filter>
     </ClInclude>
-    <ClInclude Include="Scene_ShootingBullet.h">
-      <Filter>API_FrameWork\SampleScene\09.shooting</Filter>
-    </ClInclude>
-    <ClInclude Include="udo_Scene.h">
-      <Filter>API_FrameWork\SampleScene\10.udo</Filter>
-    </ClInclude>
     <ClInclude Include="GeometricUtility.h">
       <Filter>API_FrameWork\Utility</Filter>
     </ClInclude>
     <ClInclude Include="monster.h">
-      <Filter>API_FrameWork\SampleScene\popol</Filter>
-    </ClInclude>
-    <ClInclude Include="UI.h">
-      <Filter>API_FrameWork\SampleScene\popol</Filter>
-    </ClInclude>
-    <ClInclude Include="stage2.h">
       <Filter>API_FrameWork\SampleScene\popol</Filter>
     </ClInclude>
     <ClInclude Include="player.h">
@@ -185,14 +161,20 @@
     <ClInclude Include="collisionFucntion.h">
       <Filter>API_FrameWork\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="popolItem.h">
-      <Filter>API_FrameWork\SampleScene\popol</Filter>
+    <ClInclude Include="stage2.h">
+      <Filter>API_FrameWork\SampleScene\stage2</Filter>
     </ClInclude>
-    <ClInclude Include="stageManager.h">
-      <Filter>API_FrameWork\SampleScene\popol</Filter>
+    <ClInclude Include="popolScene.h">
+      <Filter>API_FrameWork\SampleScene\stage1</Filter>
     </ClInclude>
     <ClInclude Include="fInfo.h">
       <Filter>API_FrameWork\SampleScene\popol</Filter>
+    </ClInclude>
+    <ClInclude Include="stageManager.h">
+      <Filter>API_FrameWork\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="stage3.h">
+      <Filter>API_FrameWork\SampleScene\stage3</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

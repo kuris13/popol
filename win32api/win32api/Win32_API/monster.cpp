@@ -173,7 +173,7 @@ void monster::monsterMoveMent()
 		for (int j = mRc.top; j < mRc.bottom; j++)
 		{
 			//픽셀 컬러 속성에 따른 충돌 판정을 위해 만듦
-			auto color = GetPixel(IMAGEMANAGER->findImage("배경3_c")->getMemDC(), mRc.left + 30, j);
+			auto color = GetPixel(IMAGEMANAGER->findImage(backName)->getMemDC(), mRc.left + 30, j);
 
 			int r = GetRValue(color);
 			int g = GetGValue(color);
@@ -226,7 +226,7 @@ void monster::monsterMoveMent()
 			for (int j = mRc.bottom; j < mRc.bottom + 20; j++)
 			{
 				//픽셀 컬러 속성에 따른 충돌 판정을 위해 만듦
-				auto color = GetPixel(IMAGEMANAGER->findImage("배경3_c")->getMemDC(), mRc.left + 30, j);
+				auto color = GetPixel(IMAGEMANAGER->findImage(backName)->getMemDC(), mRc.left + 30, j);
 
 				int r = GetRValue(color);
 				int g = GetGValue(color);

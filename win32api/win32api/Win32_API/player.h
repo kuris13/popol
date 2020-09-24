@@ -1,6 +1,5 @@
 #pragma once
 #include "singletonBase.h"
-#include "popolItem.h"
 class player : public singletonBase<player>
 {
 
@@ -16,6 +15,7 @@ public:
 	vector<string> haveitem;
 	vector<string> invenVec2;
 
+	int score = 0;
 	int nowScene = 1;
 	int monstCount = 0;
 	bool isMonsterAttack[10] = { false };

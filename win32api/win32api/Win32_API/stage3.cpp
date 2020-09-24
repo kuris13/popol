@@ -1,20 +1,21 @@
 #include "setDefine.h"
-#include "stage2.h"
+#include "stage3.h"
 
-HRESULT stage2::init()
+HRESULT stage3::init()
 {
-	IMAGEMANAGER->addImage("배경4", "Images/second.bmp", WINSIZE_X, WINSIZE_Y, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("배경4_c", "Images/second_c.bmp", WINSIZE_X, WINSIZE_Y, true, RGB(255, 0, 255));
+	//IMAGEMANAGER->addImage("배경4", "Images/second.bmp", WINSIZE_X, WINSIZE_Y, true, RGB(255, 0, 255));
+	//IMAGEMANAGER->addImage("배경4_c", "Images/second_c.bmp", WINSIZE_X, WINSIZE_Y, true, RGB(255, 0, 255));
 
-	
+
 
 	//==========================================
-	playerS->backName = "배경4_c";
+	//playerS->backName = "배경4_c";
 
-	playerS->nowScene = 2;
-	playerS->rc = RectMake(-30, 100, 60, 60);
+	playerS->nowScene = 3;
+	playerS->rc = RectMake(100, 100, 60, 60);
 	//==========================================
-	
+
+
 	for (int i = 0; i < monsterCount; i++)
 	{
 		m[i] = new monster();
@@ -24,41 +25,34 @@ HRESULT stage2::init()
 
 	}
 
-	//m[0]->setLocation(WINSIZE_X/2, 600);
-	//m[1]->setLocation(1100, 300);
-	//m[2]->setLocation(300, 600);
+	m[0]->setLocation(WINSIZE_X/2, 600);
+	m[1]->setLocation(1100, 300);
+	m[2]->setLocation(300, 600);
+
+
 	coinImg = IMAGEMANAGER->findImage("coin");
 	coinImg->setFrameY(0);
-
-
-
-
-
-
 
 
 	return S_OK;
 }
 
-void stage2::release()
+void stage3::release()
 {
-
 }
 
-void stage2::update()
+void stage3::update()
 {
 
 	if (playerS->rc2.left < 0)
 	{
-		SCENEMANAGER->changeScene("포폴");
+		SCENEMANAGER->changeScene("포폴2");
 	}
-	
+
 	playerS->monstCount = monsterCount;
 
 	for (int i = 0; i < monsterCount; i++)
 	{
-
-
 
 		playerS->mRc[i] = m[i]->mRc;
 
@@ -76,27 +70,27 @@ void stage2::update()
 	//====================================================
 	//필드 드랍 아이템 획득 -> 퀵슬롯으로 이동
 	RECT temp5;
-	for (int i = 0; i < STAGEMANAGER->stageTwo->stageItemVec.size(); i++)
+	for (int i = 0; i < STAGEMANAGER->stageThr->stageItemVec.size(); i++)
 	{
-		if (IntersectRect(&temp5, &playerS->rc2, &STAGEMANAGER->stageTwo->stageItem[i]))
+		if (IntersectRect(&temp5, &playerS->rc2, &STAGEMANAGER->stageThr->stageItem[i]))
 		{
 			//처리된 아이템은 화면밖으로 이동
-			STAGEMANAGER->stageTwo->stageItem[i].left = -100;
-			STAGEMANAGER->stageTwo->stageItem[i].right = -100;
+			STAGEMANAGER->stageThr->stageItem[i].left = -100;
+			STAGEMANAGER->stageThr->stageItem[i].right = -100;
 
 			//플레이어의 인벤토리에 아이템 푸시
-			playerS->invenVec2.push_back(STAGEMANAGER->stageTwo->stageItemVec.at(i));
+			playerS->invenVec2.push_back(STAGEMANAGER->stageThr->stageItemVec.at(i));
 		}
 
 	}
 	RECT temp6;
-	for (int i = 0; i < STAGEMANAGER->stageTwo->coin; i++)
+	for (int i = 0; i < STAGEMANAGER->stageThr->coin; i++)
 	{
-		if (IntersectRect(&temp6, &playerS->rc2, &STAGEMANAGER->stageTwo->coinRect[i]))
+		if (IntersectRect(&temp6, &playerS->rc2, &STAGEMANAGER->stageThr->coinRect[i]))
 		{
 			//처리된 아이템은 화면밖으로 이동
-			STAGEMANAGER->stageTwo->coinRect[i].left = -100;
-			STAGEMANAGER->stageTwo->coinRect[i].right = -100;
+			STAGEMANAGER->stageThr->coinRect[i].left = -100;
+			STAGEMANAGER->stageThr->coinRect[i].right = -100;
 			++playerS->score;
 
 		}
@@ -104,14 +98,14 @@ void stage2::update()
 	}
 
 
-	
+
 	playerS->playerMovement();
 
 
 	//다음 맵으로 이동
 	if (playerS->rc2.right > WINSIZE_X)
 	{
-		SCENEMANAGER->changeScene("포폴3");
+		//SCENEMANAGER->changeScene("포폴3");
 
 	}
 
@@ -125,28 +119,11 @@ void stage2::update()
 
 	if (coinState > 30) coinState = 0;
 
-
-
-
-
-
-
-
-
-
 }
 
-void stage2::render()
+void stage3::render()
 {
-	IMAGEMANAGER->render("뒷배경1", getMemDC());
-	IMAGEMANAGER->render("뒷배경2", getMemDC());
-	IMAGEMANAGER->render("뒷배경3", getMemDC());
-
-	IMAGEMANAGER->render("배경4", getMemDC());
-
-
-
-
+	//========================================================================
 	for (int i = 0; i < playerS->lifeCount; i++)
 	{
 		IMAGEMANAGER->render("체력", getMemDC(), 30 + i * 55, 50);
@@ -168,17 +145,17 @@ void stage2::render()
 
 	}
 
-	for (int i = 0; i < STAGEMANAGER->stageTwo->stageItemVec.size(); i++)
+	for (int i = 0; i < STAGEMANAGER->stageThr->stageItemVec.size(); i++)
 	{
-		IMAGEMANAGER->render(STAGEMANAGER->stageTwo->stageItemVec.at(i), getMemDC(), STAGEMANAGER->stageTwo->stageItem[i].left, STAGEMANAGER->stageTwo->stageItem[i].top);
+		IMAGEMANAGER->render(STAGEMANAGER->stageThr->stageItemVec.at(i), getMemDC(), STAGEMANAGER->stageThr->stageItem[i].left, STAGEMANAGER->stageThr->stageItem[i].top);
 	}
 
-	for (int i = 0; i < STAGEMANAGER->stageTwo->coin; i++)
+	for (int i = 0; i < STAGEMANAGER->stageThr->coin; i++)
 	{
-		IMAGEMANAGER->frameRender("coin", getMemDC(), STAGEMANAGER->stageTwo->coinRect[i].left, STAGEMANAGER->stageTwo->coinRect[i].top);
+		IMAGEMANAGER->frameRender("coin", getMemDC(), STAGEMANAGER->stageThr->coinRect[i].left, STAGEMANAGER->stageThr->coinRect[i].top);
 
 	}
-	
+
 
 	for (int i = 0; i < playerS->score; i++)
 	{
@@ -216,6 +193,10 @@ void stage2::render()
 		IMAGEMANAGER->render(playerS->haveitem.at(i), getMemDC(), 30 + i * 55, 150);
 
 	}
+	//========================================================================
+
+
+
 
 
 
@@ -248,11 +229,6 @@ void stage2::render()
 	{
 		IMAGEMANAGER->frameRender("p_hit", getMemDC(), playerS->rc.left, playerS->rc.top);
 	}
-
-
-
-
-
 
 
 	for (int i = 0; i < monsterCount; i++)
@@ -295,6 +271,5 @@ void stage2::render()
 
 	sprintf(str, "마우스 좌표 x : %d , y : %d ", _ptMouse.x, _ptMouse.y);
 	TextOut(getMemDC(), 10, 10, str, strlen(str));
-
 
 }

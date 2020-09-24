@@ -32,6 +32,18 @@ void stageManager::stageOneInit()
 
 void stageManager::stageTwoInit()
 {
+	//로딩씬에서 처리
+	stageTwo = new fInfo();
+
+
+	stageTwo->coin = 5;
+	stageTwo->coinRect[0] = RectMake(580, 110, 50, 50);
+	stageTwo->coinRect[1] = RectMake(740, 170, 50, 50);
+	stageTwo->coinRect[2] = RectMake(900, 240, 50, 50);
+	stageTwo->coinRect[3] = RectMake(1060, 300, 50, 50);
+	stageTwo->coinRect[4] = RectMake(400, 600, 50, 50);
+
+
 }
 
 void stageManager::stageThrInit()
