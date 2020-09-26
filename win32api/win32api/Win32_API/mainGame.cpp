@@ -13,16 +13,28 @@ HRESULT mainGame::init()
 
 	SCENEMANAGER->addScene("포폴2", new stage2);
 
+	SCENEMANAGER->addScene("포폴3", new stage3);
+
+
+	
+	//====================================
+	//재생할 사운드를 추가
+	SOUNDMANAGER->addSound("bgm", "sound/bgm.mp3",true,true);
+	SOUNDMANAGER->addSound("coin1", "sound/getCoin.mp3", false, false);
+	SOUNDMANAGER->addSound("coin2", "sound/getCoin2.mp3", false, false);
+	SOUNDMANAGER->addSound("hit", "sound/hit.mp3", false, false);
+	SOUNDMANAGER->addSound("hitMonster", "sound/hitMonster.mp3", false, false);
+	SOUNDMANAGER->addSound("sword", "sound/sword.mp3", false, false);
+	SOUNDMANAGER->addSound("useItem", "sound/useItem.mp3", false, false);
+	SOUNDMANAGER->addSound("walk", "sound/walk.mp3", false, false);
 	
 
 
 
-	//====================================
-	//재생할 사운드를 추가
-	SOUNDMANAGER->addSound("브금", "BGM.mp3",true,true);
+
 
 	//사운드 재생
-	//SOUNDMANAGER->play("브금", 0.5f);
+	SOUNDMANAGER->play("bgm", 0.5f);
 
 	//============임시================================
 	IMAGEMANAGER->addImage("뒷배경1", "Images/bakcground_day1.bmp", 1312, 768, true, RGB(255, 0, 255));

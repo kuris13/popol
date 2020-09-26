@@ -67,6 +67,7 @@ void player::playerMovement()
 						playerImg = IMAGEMANAGER->findImage("p_run");
 						playerImg->setFrameY(dy);
 						playerImg->setFrameX(runState++);
+					
 					}
 
 				}
@@ -83,7 +84,8 @@ void player::playerMovement()
 
 						playerImg = IMAGEMANAGER->findImage("p_run");
 						playerImg->setFrameY(dy);
-						playerImg->setFrameX(runState++ / 5);
+						playerImg->setFrameX(runState++);
+						
 					}
 				}
 			}
@@ -145,6 +147,8 @@ void player::playerMovement()
 		{
 			playerImg->setFrameY(dy);
 			playerImg->setFrameX(attackState++ / 3);
+			if(attackState == 12 || attackState == 27 || attackState == 39)
+			SOUNDMANAGER->play("sword", 1.0f);
 		}
 		else if (jumpOn)
 		{
@@ -273,6 +277,7 @@ void player::playerMovement()
 				//내가 회피중이 아닐 때 몬스터와 충돌한다면
 				if (!rollOn && ((IMAGEMANAGER->findImage("skel_attack")->getFrameX() > 7) && (IMAGEMANAGER->findImage("skel_attack")->getFrameX() < 12)))
 				{
+					SOUNDMANAGER->play("hit", 1.0f);
 					hitOn = true;
 					noHitMode = true;
 					hitMonNum = i;
@@ -367,6 +372,11 @@ void player::playerMovement()
 
 				}
 
+				if (jumpOn)
+				{
+					jumpGa = maxJump;
+				}
+
 			}
 
 
@@ -457,8 +467,12 @@ void player::playerMovement()
 void player::useItem()
 {
 
+	
+
 	if (invenVec2.size() > 0)
 	{
+		SOUNDMANAGER->play("useItem", 1.0f);
+
 		if (invenVec2.at(0) == "물고기")
 		{
 			maxJump += 100;

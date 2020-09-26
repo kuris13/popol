@@ -3,16 +3,16 @@
 
 HRESULT stage3::init()
 {
-	//IMAGEMANAGER->addImage("¹è°æ4", "Images/second.bmp", WINSIZE_X, WINSIZE_Y, true, RGB(255, 0, 255));
-	//IMAGEMANAGER->addImage("¹è°æ4_c", "Images/second_c.bmp", WINSIZE_X, WINSIZE_Y, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("stage3", "Images/stage3.bmp", WINSIZE_X, WINSIZE_Y, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("stage3_c", "Images/stage3_c.bmp", WINSIZE_X, WINSIZE_Y, true, RGB(255, 0, 255));
 
 
 
 	//==========================================
-	//playerS->backName = "¹è°æ4_c";
+	playerS->backName = "stage3_c";
 
 	playerS->nowScene = 3;
-	playerS->rc = RectMake(100, 100, 60, 60);
+	playerS->rc = RectMake(50, 530, 60, 60);
 	//==========================================
 
 
@@ -22,12 +22,13 @@ HRESULT stage3::init()
 
 		m[i]->monsterInit();
 		m[i]->playerRect = &playerS->rc2;
-
+		m[i]->backName = "stage3_c";
 	}
 
-	m[0]->setLocation(WINSIZE_X/2, 600);
-	m[1]->setLocation(1100, 300);
-	m[2]->setLocation(300, 600);
+
+	m[0]->setLocation(450, 600);
+	m[1]->setLocation(1000, 600);
+	
 
 
 	coinImg = IMAGEMANAGER->findImage("coin");
@@ -66,7 +67,7 @@ void stage3::update()
 		}
 	}
 
-
+	
 	//====================================================
 	//ÇÊµå µå¶ø ¾ÆÀÌÅÛ È¹µæ -> Äü½½·ÔÀ¸·Î ÀÌµ¿
 	RECT temp5;
@@ -83,6 +84,7 @@ void stage3::update()
 		}
 
 	}
+
 	RECT temp6;
 	for (int i = 0; i < STAGEMANAGER->stageThr->coin; i++)
 	{
@@ -95,9 +97,9 @@ void stage3::update()
 
 		}
 
-	}
+	} 
 
-
+	
 
 	playerS->playerMovement();
 
@@ -123,6 +125,17 @@ void stage3::update()
 
 void stage3::render()
 {
+
+	IMAGEMANAGER->render("µÞ¹è°æ1", getMemDC());
+	IMAGEMANAGER->render("µÞ¹è°æ2", getMemDC());
+	IMAGEMANAGER->render("µÞ¹è°æ3", getMemDC());
+
+	IMAGEMANAGER->render("stage3", getMemDC());
+
+
+
+	
+	
 	//========================================================================
 	for (int i = 0; i < playerS->lifeCount; i++)
 	{
@@ -195,10 +208,10 @@ void stage3::render()
 	}
 	//========================================================================
 
+	
 
 
-
-
+	
 
 
 	if (playerS->state == 0)
@@ -268,7 +281,6 @@ void stage3::render()
 		}
 
 	}
-
 	sprintf(str, "¸¶¿ì½º ÁÂÇ¥ x : %d , y : %d ", _ptMouse.x, _ptMouse.y);
 	TextOut(getMemDC(), 10, 10, str, strlen(str));
 

@@ -10,15 +10,15 @@ HRESULT soundManager::init()
 	System_Create(&_system);
 
 	//사운드 채널 수 설정
-	_system->init(3, FMOD_INIT_NORMAL, 0);
+	_system->init(15, FMOD_INIT_NORMAL, 0);
 
 	//사운드 채널 수만큼 클래스 동적할당
-	_sound = new Sound*[3];
-	_channel = new Channel*[3];
+	_sound = new Sound*[15];
+	_channel = new Channel*[15];
 
 	//메모리 초기화
-	memset(_sound, 0, sizeof(Sound*) * 3);
-	memset(_channel, 0, sizeof(Channel*) * 3);
+	memset(_sound, 0, sizeof(Sound*) * 15);
+	memset(_channel, 0, sizeof(Channel*) * 15);
 
 
 	return E_NOTIMPL;
@@ -29,7 +29,7 @@ void soundManager::release()
 	//사운드 채널 제거
 	if (_channel != nullptr || _sound != nullptr)
 	{
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 15; i++)
 		{
 			if (_channel != nullptr) _channel[i]->stop();
 			if (_sound != nullptr) _sound[i]->release();

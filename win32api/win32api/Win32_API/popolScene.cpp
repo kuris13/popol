@@ -12,14 +12,14 @@ HRESULT popolScene::init()
 
 	if (playerS->nowScene == 2)
 	{
-		playerS->nowScene = 1;
+		
 		playerS->rc = RectMake(WINSIZE_X-90, 600, 60, 60);
 	}
 	else {
 		playerS->rc = RectMake(50, 600, 60, 60);
 
 	}
-
+	playerS->nowScene = 1;
 	player2 = playerS;
 	
 	//==========================================
@@ -77,6 +77,7 @@ void popolScene::update()
 	{
 		if (IntersectRect(&temp5, &playerS->rc2, &STAGEMANAGER->stageOne->stageItem[i]))
 		{
+			SOUNDMANAGER->play("coin1");
 			//처리된 아이템은 화면밖으로 이동
 			STAGEMANAGER->stageOne->stageItem[i].left = -100;
 			STAGEMANAGER->stageOne->stageItem[i].right = -100;
@@ -92,6 +93,7 @@ void popolScene::update()
 	{
 		if (IntersectRect(&temp6, &playerS->rc2, &STAGEMANAGER->stageOne->coinRect[i]))
 		{
+			SOUNDMANAGER->play("coin2");
 			//처리된 아이템은 화면밖으로 이동
 			STAGEMANAGER->stageOne->coinRect[i].left = -100;
 			STAGEMANAGER->stageOne->coinRect[i].right = -100;
@@ -103,7 +105,6 @@ void popolScene::update()
 	}
 
 
-	
 	//다음 맵으로 이동
 	player2->playerMovement();
 	if (player2->rc2.right > WINSIZE_X)
@@ -135,7 +136,7 @@ void popolScene::update()
 	if (coinState > 30) coinState = 0;
 
 
-
+	SOUNDMANAGER->update();
 
 }
 

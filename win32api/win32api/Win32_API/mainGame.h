@@ -17,6 +17,7 @@
 #include "Scene_ShootingBullet.h"
 #include "udo_Scene.h"
 #include "stage2.h"
+#include "stage3.h"
 class mainGame : public gameNode
 {
 private:

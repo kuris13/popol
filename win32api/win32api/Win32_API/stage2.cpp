@@ -11,10 +11,22 @@ HRESULT stage2::init()
 	//==========================================
 	playerS->backName = "¹è°æ4_c";
 
-	playerS->nowScene = 2;
-	playerS->rc = RectMake(-30, 100, 60, 60);
+	
 	//==========================================
 	
+	if (playerS->nowScene == 3)
+	{
+		
+		playerS->rc = RectMake(1230,220, 60, 60);
+	}
+	else 
+	{
+		playerS->rc = RectMake(-30, 100, 60, 60);
+
+	}
+
+	playerS->nowScene = 2;
+
 	for (int i = 0; i < monsterCount; i++)
 	{
 		m[i] = new monster();
@@ -24,9 +36,7 @@ HRESULT stage2::init()
 
 	}
 
-	//m[0]->setLocation(WINSIZE_X/2, 600);
-	//m[1]->setLocation(1100, 300);
-	//m[2]->setLocation(300, 600);
+	
 	coinImg = IMAGEMANAGER->findImage("coin");
 	coinImg->setFrameY(0);
 
@@ -57,8 +67,6 @@ void stage2::update()
 
 	for (int i = 0; i < monsterCount; i++)
 	{
-
-
 
 		playerS->mRc[i] = m[i]->mRc;
 
@@ -103,8 +111,6 @@ void stage2::update()
 
 	}
 
-
-	
 	playerS->playerMovement();
 
 
@@ -124,14 +130,6 @@ void stage2::update()
 	coinImg->setFrameX(coinState++ / 5);
 
 	if (coinState > 30) coinState = 0;
-
-
-
-
-
-
-
-
 
 
 }

@@ -110,8 +110,10 @@ void monster::monsterMoveMent()
 
 		if (hitOn)
 		{
+			if(hitState == 0) SOUNDMANAGER->play("hitMonster", 1.0f);
 			monsterImg->setFrameY(dy);
 			monsterImg->setFrameX(hitState++ / 5);
+
 		}
 
 		//death 추가해야함
@@ -146,6 +148,7 @@ void monster::monsterMoveMent()
 
 		if (hitState > 40)
 		{
+			
 			hitState = 0;
 			hitOn = false;
 			state = 0;
@@ -256,6 +259,7 @@ void monster::monsterMoveMent()
 				state = 3;
 				hitOn = true;
 				monsterImg = IMAGEMANAGER->findImage("skel_hit");
+				
 				
 			}
 			else if (IntersectRect(&tempRect, playerRect, &mRc) && !steMode && !hitOn)

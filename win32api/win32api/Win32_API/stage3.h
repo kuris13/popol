@@ -13,7 +13,7 @@ private:
 	image* coinImg;
 	vector<monster> monVec;
 
-	int monsterCount = 0;
+	int monsterCount = 2;
 
 
 	int renderScoreHelpX = 0;
